@@ -1,7 +1,7 @@
 import { EntityManager } from "@mikro-orm/postgresql";
 import { Seeder } from "@mikro-orm/seeder";
 import { promises as fs } from "node:fs";
-import path from "node:path";
+import { join } from "node:path";
 import { Attack } from "../entities/attack.entity";
 import { Pokemon, PokemonCaptureArea, PokemonClass, PokemonType } from "../entities/pokemon.entity";
 
@@ -109,7 +109,7 @@ export class PokemonSeeder extends Seeder {
     }
 
     private async loadPokemonsData(): Promise<RawPokemon[]> {
-        const filePath = path.join(process.cwd(), "resources", "pokemons.json");
+        const filePath = join(process.cwd(), "resources", "pokemons.json");
         const rawJson = await fs.readFile(filePath, "utf8");
 
         return JSON.parse(rawJson) as RawPokemon[];
