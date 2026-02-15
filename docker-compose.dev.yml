@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: apoco-backend-challenge-dev
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8080"
+      NODE_ENV: development
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+    # Hot reloading is intentionally not enabled in this file.
+    # To add it later:
+    # 1) Mount the source code and keep dependencies in a named volume:
+    # volumes:
+    #   - .:/app
+    #   - node_modules:/app/node_modules
+    #
+    # 2) Run a file watcher command (example):
+    # command: ["sh", "-c", "yarn build --watch"]
+    #
+    # 3) Add a watcher to devDependencies (e.g. tsx/nodemon), then run:
+    # command: ["sh", "-c", "yarn tsx watch src/index.ts"]
+
+# volumes:
+#   node_modules:

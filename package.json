@@ -1,0 +1,27 @@
+{
+  "name": "apoco-backend-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vikroe/apoco-backend-challenge.git",
+  "author": "Viktor Koropecky <v.koropecky@protonmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/index.js",
+    "build": "tsc",
+    "watch": "docker compose -f ./docker-compose.dev.yml up --force-recreate -w"
+  },
+  "dependencies": {
+    "@mikro-orm/core": "^6.6.6",
+    "@mikro-orm/postgresql": "^6.6.6",
+    "@mikro-orm/reflection": "^6.6.6",
+    "fastify": "^5.7.4"
+  },
+  "devDependencies": {
+    "@mikro-orm/cli": "^6.6.6",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^25.2.3",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  }
+}
