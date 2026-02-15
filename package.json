@@ -8,7 +8,8 @@
   "scripts": {
     "dev-db": "docker compose -f docker-compose.dev.yml up --force-recreate --detach",
     "start": "node build/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "mikro-orm seeder:run --class PokemonSeeder"
   },
   "dependencies": {
     "@mikro-orm/core": "^6.6.6",
