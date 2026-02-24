@@ -1,6 +1,6 @@
-import fastify, { FastifyInstance } from "fastify";
 import { MikroORM } from "@mikro-orm/postgresql";
-import ormConfig from "./mikro-orm.config";
+import fastify, { FastifyInstance } from "fastify";
+import { getOrm } from "./models/dataSource";
 
 export default class Application {
     private readonly server: FastifyInstance;
@@ -15,7 +15,7 @@ export default class Application {
 
         this.registerRoutes();
         this.server.addHook("onClose", async () => {
-            await this.closeOrm();
+            await this.close();
         });
     }
 
@@ -25,39 +25,19 @@ export default class Application {
         });
     };
 
-    public connect = async (): Promise<void> => {
-        if (this.orm) {
-            return;
-        }
-
-        this.orm = await MikroORM.init(ormConfig);
-    };
-
-    public getOrm = (): MikroORM => {
-        if (!this.orm) {
-            throw new Error("MikroORM is not initialized. Call connect() first.");
-        }
-
-        return this.orm;
-    };
-
-    private closeOrm = async (): Promise<void> => {
-        if (!this.orm) {
-            return;
-        }
-
-        await this.orm.close(true);
-        this.orm = undefined;
-    };
-
     public start = async (): Promise<void> => {
-        await this.connect();
+        this.orm = await getOrm();
 
         const address = await this.server.listen({ port: this.port, host: this.host });
         console.log(`server listening on ${address}`);
     };
 
     public close = async (): Promise<void> => {
+        if (this.orm && await this.orm.isConnected()) {
+            await this.orm.close();
+            this.orm = undefined;
+        }
+
         await this.server.close();
     };
 }

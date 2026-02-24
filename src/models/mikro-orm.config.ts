@@ -4,7 +4,7 @@ import { SeedManager } from '@mikro-orm/seeder';
 
 const config: Options = {
   driver: PostgreSqlDriver,
-  preferTs: true,
+  preferTs: false,
   dbName: 'postgres',
   host: 'localhost',
   port: 5433,
