@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev-db": "docker compose -f docker-compose.dev.yml up --force-recreate --detach",
-    "start": "tsx watch --include 'src/*' --exclude 'src/models/migrations/*' --exclude 'src/models/seeders/*' src/index.ts",
+    "start": "tsx watch --include 'src/**' --exclude 'src/models/migrations/**' --exclude 'src/models/seeders/**' src/index.ts",
     "seed": "mikro-orm seeder:run --class PokemonSeeder",
     "lint": "eslint . --cache --ext .mjs,.cjs,.jsx,.js,.ts,.tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "yarn eslint --fix ."

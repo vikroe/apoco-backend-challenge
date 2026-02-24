@@ -19,7 +19,6 @@ const config: Options = {
     emit: 'ts',
   },
   metadataProvider: TsMorphMetadataProvider,
-  debug: true,
   extensions: [SeedManager],
 };
 
