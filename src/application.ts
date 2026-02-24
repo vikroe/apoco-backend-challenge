@@ -10,8 +10,8 @@ export default class Application {
 
     public constructor() {
         this.server = fastify();
-        this.port = Number(process.env.PORT ?? 8080);
-        this.host = process.env.HOST ?? "0.0.0.0";
+        this.port = Number(process.env.API_PORT ?? 8080);
+        this.host = process.env.API_HOST ?? "localhost";
 
         this.registerRoutes();
         this.server.addHook("onClose", async () => {
