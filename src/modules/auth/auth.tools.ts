@@ -1,6 +1,6 @@
-import fastifyJwt from "@fastify/jwt";
-import { FastifyInstance } from "fastify";
-import { ACCESS_TOKEN_TTL_SECONDS, JWT_SECRET } from "./auth.config";
+import fastifyJwt from '@fastify/jwt';
+import { FastifyInstance } from 'fastify';
+import { ACCESS_TOKEN_TTL_SECONDS, JWT_SECRET } from './auth.config';
 
 export const registerAuthTools = (server: FastifyInstance): void => {
     server.register(fastifyJwt, {
@@ -10,11 +10,11 @@ export const registerAuthTools = (server: FastifyInstance): void => {
         },
     });
 
-    server.decorate("authenticate", async (request, reply) => {
+    server.decorate('authenticate', async (request, reply) => {
         try {
             await request.jwtVerify();
         } catch {
-            reply.code(401).send({ message: "Invalid or expired token" });
+            reply.code(401).send({ message: 'Invalid or expired token' });
         }
     });
 };

@@ -1,9 +1,9 @@
-import { MikroORM } from "@mikro-orm/postgresql";
-import fastify, { FastifyInstance } from "fastify";
-import { getOrm } from "./models/dataSource";
-import { registerAuthTools } from "./modules/auth/auth.tools";
-import schemasPlugin from "./plugins/schemas.plugin";
-import routes from "./routes";
+import { MikroORM } from '@mikro-orm/postgresql';
+import fastify, { FastifyInstance } from 'fastify';
+import { getOrm } from './models/dataSource';
+import { registerAuthTools } from './modules/auth/auth.tools';
+import schemasPlugin from './plugins/schemas.plugin';
+import routes from './routes';
 
 export default class Application {
     private readonly server: FastifyInstance;
@@ -14,12 +14,12 @@ export default class Application {
     public constructor() {
         this.server = fastify();
         this.port = Number(process.env.API_PORT ?? 8080);
-        this.host = process.env.API_HOST ?? "localhost";
+        this.host = process.env.API_HOST ?? 'localhost';
 
         registerAuthTools(this.server);
         this.server.register(schemasPlugin);
         this.server.register(routes);
-        this.server.addHook("onClose", async () => {
+        this.server.addHook('onClose', async () => {
             await this.closeOrm();
         });
     }
@@ -27,7 +27,10 @@ export default class Application {
     public start = async (): Promise<void> => {
         this.orm = await getOrm();
 
-        const address = await this.server.listen({ port: this.port, host: this.host });
+        const address = await this.server.listen({
+            port: this.port,
+            host: this.host,
+        });
         console.log(`server listening on ${address}`);
     };
 
@@ -36,7 +39,7 @@ export default class Application {
     };
 
     private closeOrm = async (): Promise<void> => {
-        if (this.orm && await this.orm.isConnected()) {
+        if (this.orm && (await this.orm.isConnected())) {
             await this.orm.close();
             this.orm = undefined;
         }

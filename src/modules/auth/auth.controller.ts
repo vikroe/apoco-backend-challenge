@@ -1,11 +1,11 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from 'fastify';
 import {
     authenticateUser,
     getUserById,
     registerUser,
     UserAlreadyExistsError,
-} from "./auth.service";
-import { ACCESS_TOKEN_TTL_SECONDS } from "./auth.config";
+} from './auth.service';
+import { ACCESS_TOKEN_TTL_SECONDS } from './auth.config';
 
 export interface CredentialsBody {
     email: string;
@@ -17,14 +17,20 @@ type CredentialsRequest = FastifyRequest<{ Body: CredentialsBody }>;
 const toAuthResponse = (token: string, user: { id: number; email: string }) => {
     return {
         accessToken: token,
-        tokenType: "Bearer",
+        tokenType: 'Bearer',
         expiresIn: ACCESS_TOKEN_TTL_SECONDS,
         user,
     };
 };
 
-export const registerController = async (request: CredentialsRequest, reply: FastifyReply): Promise<void> => {
-    const user = await registerUser(request.body.email, request.body.password).catch((error: unknown) => {
+export const registerController = async (
+    request: CredentialsRequest,
+    reply: FastifyReply
+): Promise<void> => {
+    const user = await registerUser(
+        request.body.email,
+        request.body.password
+    ).catch((error: unknown) => {
         if (error instanceof UserAlreadyExistsError) {
             reply.code(409).send({ message: error.message });
             return null;
@@ -43,14 +49,20 @@ export const registerController = async (request: CredentialsRequest, reply: Fas
         toAuthResponse(accessToken, {
             id: user.id,
             email: user.email,
-        }),
+        })
     );
 };
 
-export const loginController = async (request: CredentialsRequest, reply: FastifyReply): Promise<void> => {
-    const user = await authenticateUser(request.body.email, request.body.password);
+export const loginController = async (
+    request: CredentialsRequest,
+    reply: FastifyReply
+): Promise<void> => {
+    const user = await authenticateUser(
+        request.body.email,
+        request.body.password
+    );
     if (!user) {
-        reply.code(401).send({ message: "Invalid email or password" });
+        reply.code(401).send({ message: 'Invalid email or password' });
         return;
     }
 
@@ -60,19 +72,22 @@ export const loginController = async (request: CredentialsRequest, reply: Fastif
         toAuthResponse(accessToken, {
             id: user.id,
             email: user.email,
-        }),
+        })
     );
 };
 
-export const meController = async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
+export const meController = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+): Promise<void> => {
     if (!request.user) {
-        reply.code(401).send({ message: "Unauthenticated" });
+        reply.code(401).send({ message: 'Unauthenticated' });
         return;
     }
 
     const user = await getUserById(request.user.id);
     if (!user) {
-        reply.code(401).send({ message: "Unauthenticated" });
+        reply.code(401).send({ message: 'Unauthenticated' });
         return;
     }
 

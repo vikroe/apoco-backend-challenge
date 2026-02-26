@@ -1,37 +1,39 @@
 {
-  "name": "apoco-backend-challenge",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/vikroe/apoco-backend-challenge.git",
-  "author": "Viktor Koropecky <v.koropecky@protonmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "dev-db": "docker compose -f docker-compose.dev.yml up --force-recreate --detach",
-    "start": "tsx watch --env-file=.env --include 'src/**' --exclude 'src/models/migrations/**' --exclude 'src/models/seeders/**' src/index.ts",
-    "seed": "mikro-orm seeder:run --class PokemonSeeder",
-    "lint": "eslint . --cache --ext .mjs,.cjs,.jsx,.js,.ts,.tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "yarn eslint --fix ."
-  },
-  "dependencies": {
-    "@fastify/jwt": "^10.0.0",
-    "@mikro-orm/core": "^6.6.6",
-    "@mikro-orm/migrations": "^6.6.6",
-    "@mikro-orm/postgresql": "^6.6.6",
-    "@mikro-orm/reflection": "^6.6.6",
-    "@mikro-orm/seeder": "^6.6.6",
-    "fastify": "^5.7.4"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@mikro-orm/cli": "^6.6.6",
-    "@tsconfig/node24": "^24.0.4",
-    "@types/node": "^25.2.3",
-    "eslint": "^10.0.1",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.6",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.0"
-  }
+    "name": "apoco-backend-challenge",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/vikroe/apoco-backend-challenge.git",
+    "author": "Viktor Koropecky <v.koropecky@protonmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "dev-db": "docker compose -f docker-compose.dev.yml up --force-recreate --detach",
+        "start": "tsx watch --env-file=.env --include 'src/**' --exclude 'src/models/migrations/**' --exclude 'src/models/seeders/**' src/index.ts",
+        "seed": "mikro-orm seeder:run --class PokemonSeeder",
+        "lint": "eslint . --cache --ext .mjs,.cjs,.jsx,.js,.ts,.tsx --report-unused-disable-directives --max-warnings 0",
+        "pretty": "prettier --write .",
+        "lint:fix": "yarn eslint --fix ."
+    },
+    "dependencies": {
+        "@fastify/jwt": "^10.0.0",
+        "@mikro-orm/core": "^6.6.6",
+        "@mikro-orm/migrations": "^6.6.6",
+        "@mikro-orm/postgresql": "^6.6.6",
+        "@mikro-orm/reflection": "^6.6.6",
+        "@mikro-orm/seeder": "^6.6.6",
+        "fastify": "^5.7.4"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@mikro-orm/cli": "^6.6.6",
+        "@tsconfig/node24": "^24.0.4",
+        "@types/node": "^25.2.3",
+        "eslint": "^10.0.1",
+        "jest": "^30.2.0",
+        "prettier": "^3.8.1",
+        "ts-jest": "^29.4.6",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.56.0"
+    }
 }

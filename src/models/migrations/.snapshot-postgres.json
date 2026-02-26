@@ -1,854 +1,804 @@
 {
-  "namespaces": [
-    "public"
-  ],
-  "name": "public",
-  "tables": [
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "unsigned": false,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "type": {
-          "name": "type",
-          "type": "pokemon_type",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "nativeEnumName": "pokemon_type",
-          "enumItems": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ],
-          "mappedType": "enum"
-        },
-        "damage": {
-          "name": "damage",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        }
-      },
-      "name": "attack",
-      "schema": "public",
-      "indexes": [
+    "namespaces": ["public"],
+    "name": "public",
+    "tables": [
         {
-          "keyName": "attack_name_type_damage_unique",
-          "columnNames": [
-            "name",
-            "type",
-            "damage"
-          ],
-          "composite": true,
-          "constraint": true,
-          "primary": false,
-          "unique": true
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "unsigned": false,
+                    "autoincrement": true,
+                    "primary": true,
+                    "nullable": false,
+                    "mappedType": "integer"
+                },
+                "name": {
+                    "name": "name",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "type": {
+                    "name": "type",
+                    "type": "pokemon_type",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "nativeEnumName": "pokemon_type",
+                    "enumItems": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ],
+                    "mappedType": "enum"
+                },
+                "damage": {
+                    "name": "damage",
+                    "type": "int",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "integer"
+                }
+            },
+            "name": "attack",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "attack_name_type_damage_unique",
+                    "columnNames": ["name", "type", "damage"],
+                    "composite": true,
+                    "constraint": true,
+                    "primary": false,
+                    "unique": true
+                },
+                {
+                    "keyName": "attack_pkey",
+                    "columnNames": ["id"],
+                    "composite": false,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {},
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
         },
         {
-          "keyName": "attack_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "name": {
+                    "name": "name",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "classification": {
+                    "name": "classification",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "types": {
+                    "name": "types",
+                    "type": "pokemon_type[]",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "nativeEnumName": "pokemon_type",
+                    "enumItems": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ],
+                    "mappedType": "array"
+                },
+                "resistant": {
+                    "name": "resistant",
+                    "type": "pokemon_type[]",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "nativeEnumName": "pokemon_type",
+                    "enumItems": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ],
+                    "mappedType": "array"
+                },
+                "weaknesses": {
+                    "name": "weaknesses",
+                    "type": "pokemon_type[]",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "nativeEnumName": "pokemon_type",
+                    "enumItems": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ],
+                    "mappedType": "array"
+                },
+                "weight": {
+                    "name": "weight",
+                    "type": "jsonb",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "json"
+                },
+                "height": {
+                    "name": "height",
+                    "type": "jsonb",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "json"
+                },
+                "flee_rate": {
+                    "name": "flee_rate",
+                    "type": "double precision",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "double"
+                },
+                "evolution_requirements": {
+                    "name": "evolution_requirements",
+                    "type": "jsonb",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": true,
+                    "mappedType": "json"
+                },
+                "max_cp": {
+                    "name": "max_cp",
+                    "type": "int",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "integer"
+                },
+                "max_hp": {
+                    "name": "max_hp",
+                    "type": "int",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "integer"
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "type": "common_capture_area",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": true,
+                    "nativeEnumName": "common_capture_area",
+                    "enumItems": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ],
+                    "mappedType": "enum"
+                },
+                "pokemon_class": {
+                    "name": "pokemon_class",
+                    "type": "text",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": true,
+                    "enumItems": ["LEGENDARY", "MYTHIC"],
+                    "mappedType": "enum"
+                }
+            },
+            "name": "pokemon",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "pokemon_pkey",
+                    "columnNames": ["id"],
+                    "composite": false,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {},
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
+        },
+        {
+            "columns": {
+                "pokemon_1_id": {
+                    "name": "pokemon_1_id",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "pokemon_2_id": {
+                    "name": "pokemon_2_id",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                }
+            },
+            "name": "pokemon_evolutions",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "pokemon_evolutions_pkey",
+                    "columnNames": ["pokemon_1_id", "pokemon_2_id"],
+                    "composite": true,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {
+                "pokemon_evolutions_pokemon_1_id_foreign": {
+                    "constraintName": "pokemon_evolutions_pokemon_1_id_foreign",
+                    "columnNames": ["pokemon_1_id"],
+                    "localTableName": "public.pokemon_evolutions",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.pokemon",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                },
+                "pokemon_evolutions_pokemon_2_id_foreign": {
+                    "constraintName": "pokemon_evolutions_pokemon_2_id_foreign",
+                    "columnNames": ["pokemon_2_id"],
+                    "localTableName": "public.pokemon_evolutions",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.pokemon",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                }
+            },
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
+        },
+        {
+            "columns": {
+                "pokemon_id": {
+                    "name": "pokemon_id",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "attack_id": {
+                    "name": "attack_id",
+                    "type": "int",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "integer"
+                }
+            },
+            "name": "pokemon_fast_attacks",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "pokemon_fast_attacks_pkey",
+                    "columnNames": ["pokemon_id", "attack_id"],
+                    "composite": true,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {
+                "pokemon_fast_attacks_pokemon_id_foreign": {
+                    "constraintName": "pokemon_fast_attacks_pokemon_id_foreign",
+                    "columnNames": ["pokemon_id"],
+                    "localTableName": "public.pokemon_fast_attacks",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.pokemon",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                },
+                "pokemon_fast_attacks_attack_id_foreign": {
+                    "constraintName": "pokemon_fast_attacks_attack_id_foreign",
+                    "columnNames": ["attack_id"],
+                    "localTableName": "public.pokemon_fast_attacks",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.attack",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                }
+            },
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
+        },
+        {
+            "columns": {
+                "pokemon_id": {
+                    "name": "pokemon_id",
+                    "type": "varchar(255)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 255,
+                    "mappedType": "string"
+                },
+                "attack_id": {
+                    "name": "attack_id",
+                    "type": "int",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "mappedType": "integer"
+                }
+            },
+            "name": "pokemon_special_attacks",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "pokemon_special_attacks_pkey",
+                    "columnNames": ["pokemon_id", "attack_id"],
+                    "composite": true,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {
+                "pokemon_special_attacks_pokemon_id_foreign": {
+                    "constraintName": "pokemon_special_attacks_pokemon_id_foreign",
+                    "columnNames": ["pokemon_id"],
+                    "localTableName": "public.pokemon_special_attacks",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.pokemon",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                },
+                "pokemon_special_attacks_attack_id_foreign": {
+                    "constraintName": "pokemon_special_attacks_attack_id_foreign",
+                    "columnNames": ["attack_id"],
+                    "localTableName": "public.pokemon_special_attacks",
+                    "referencedColumnNames": ["id"],
+                    "referencedTableName": "public.attack",
+                    "deleteRule": "cascade",
+                    "updateRule": "cascade"
+                }
+            },
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
+        },
+        {
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "unsigned": false,
+                    "autoincrement": true,
+                    "primary": true,
+                    "nullable": false,
+                    "mappedType": "integer"
+                },
+                "email": {
+                    "name": "email",
+                    "type": "varchar(64)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 64,
+                    "mappedType": "string"
+                },
+                "password_hash": {
+                    "name": "password_hash",
+                    "type": "varchar(256)",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 256,
+                    "mappedType": "string"
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamptz",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 6,
+                    "mappedType": "datetime"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamptz",
+                    "unsigned": false,
+                    "autoincrement": false,
+                    "primary": false,
+                    "nullable": false,
+                    "length": 6,
+                    "mappedType": "datetime"
+                }
+            },
+            "name": "users",
+            "schema": "public",
+            "indexes": [
+                {
+                    "keyName": "users_email_unique",
+                    "columnNames": ["email"],
+                    "composite": false,
+                    "constraint": true,
+                    "primary": false,
+                    "unique": true
+                },
+                {
+                    "keyName": "users_pkey",
+                    "columnNames": ["id"],
+                    "composite": false,
+                    "constraint": true,
+                    "primary": true,
+                    "unique": true
+                }
+            ],
+            "checks": [],
+            "foreignKeys": {},
+            "nativeEnums": {
+                "pokemon_type": {
+                    "name": "pokemon_type",
+                    "schema": "public",
+                    "items": [
+                        "BUG",
+                        "DARK",
+                        "DRAGON",
+                        "ELECTRIC",
+                        "FAIRY",
+                        "FIGHTING",
+                        "FIRE",
+                        "FLYING",
+                        "GHOST",
+                        "GRASS",
+                        "GROUND",
+                        "ICE",
+                        "NORMAL",
+                        "POISON",
+                        "PSYCHIC",
+                        "ROCK",
+                        "STEEL",
+                        "WATER"
+                    ]
+                },
+                "common_capture_area": {
+                    "name": "common_capture_area",
+                    "schema": "public",
+                    "items": [
+                        "ASIA",
+                        "AUSTRALIA_NEW_ZEALAND",
+                        "NORTH_AMERICA",
+                        "WESTERN_EUROPE"
+                    ]
+                }
+            }
         }
-      ],
-      "checks": [],
-      "foreignKeys": {},
-      "nativeEnums": {
+    ],
+    "nativeEnums": {
         "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
+            "name": "pokemon_type",
+            "schema": "public",
+            "items": [
+                "BUG",
+                "DARK",
+                "DRAGON",
+                "ELECTRIC",
+                "FAIRY",
+                "FIGHTING",
+                "FIRE",
+                "FLYING",
+                "GHOST",
+                "GRASS",
+                "GROUND",
+                "ICE",
+                "NORMAL",
+                "POISON",
+                "PSYCHIC",
+                "ROCK",
+                "STEEL",
+                "WATER"
+            ]
         },
         "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
+            "name": "common_capture_area",
+            "schema": "public",
+            "items": [
+                "ASIA",
+                "AUSTRALIA_NEW_ZEALAND",
+                "NORTH_AMERICA",
+                "WESTERN_EUROPE"
+            ]
         }
-      }
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "classification": {
-          "name": "classification",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "types": {
-          "name": "types",
-          "type": "pokemon_type[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "nativeEnumName": "pokemon_type",
-          "enumItems": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ],
-          "mappedType": "array"
-        },
-        "resistant": {
-          "name": "resistant",
-          "type": "pokemon_type[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "nativeEnumName": "pokemon_type",
-          "enumItems": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ],
-          "mappedType": "array"
-        },
-        "weaknesses": {
-          "name": "weaknesses",
-          "type": "pokemon_type[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "nativeEnumName": "pokemon_type",
-          "enumItems": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ],
-          "mappedType": "array"
-        },
-        "weight": {
-          "name": "weight",
-          "type": "jsonb",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "json"
-        },
-        "height": {
-          "name": "height",
-          "type": "jsonb",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "json"
-        },
-        "flee_rate": {
-          "name": "flee_rate",
-          "type": "double precision",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "double"
-        },
-        "evolution_requirements": {
-          "name": "evolution_requirements",
-          "type": "jsonb",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "json"
-        },
-        "max_cp": {
-          "name": "max_cp",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "max_hp": {
-          "name": "max_hp",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "type": "common_capture_area",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "nativeEnumName": "common_capture_area",
-          "enumItems": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ],
-          "mappedType": "enum"
-        },
-        "pokemon_class": {
-          "name": "pokemon_class",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "enumItems": [
-            "LEGENDARY",
-            "MYTHIC"
-          ],
-          "mappedType": "enum"
-        }
-      },
-      "name": "pokemon",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "pokemon_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {},
-      "nativeEnums": {
-        "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
-        }
-      }
-    },
-    {
-      "columns": {
-        "pokemon_1_id": {
-          "name": "pokemon_1_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "pokemon_2_id": {
-          "name": "pokemon_2_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        }
-      },
-      "name": "pokemon_evolutions",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "pokemon_evolutions_pkey",
-          "columnNames": [
-            "pokemon_1_id",
-            "pokemon_2_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "pokemon_evolutions_pokemon_1_id_foreign": {
-          "constraintName": "pokemon_evolutions_pokemon_1_id_foreign",
-          "columnNames": [
-            "pokemon_1_id"
-          ],
-          "localTableName": "public.pokemon_evolutions",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.pokemon",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "pokemon_evolutions_pokemon_2_id_foreign": {
-          "constraintName": "pokemon_evolutions_pokemon_2_id_foreign",
-          "columnNames": [
-            "pokemon_2_id"
-          ],
-          "localTableName": "public.pokemon_evolutions",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.pokemon",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {
-        "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
-        }
-      }
-    },
-    {
-      "columns": {
-        "pokemon_id": {
-          "name": "pokemon_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "attack_id": {
-          "name": "attack_id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        }
-      },
-      "name": "pokemon_fast_attacks",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "pokemon_fast_attacks_pkey",
-          "columnNames": [
-            "pokemon_id",
-            "attack_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "pokemon_fast_attacks_pokemon_id_foreign": {
-          "constraintName": "pokemon_fast_attacks_pokemon_id_foreign",
-          "columnNames": [
-            "pokemon_id"
-          ],
-          "localTableName": "public.pokemon_fast_attacks",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.pokemon",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "pokemon_fast_attacks_attack_id_foreign": {
-          "constraintName": "pokemon_fast_attacks_attack_id_foreign",
-          "columnNames": [
-            "attack_id"
-          ],
-          "localTableName": "public.pokemon_fast_attacks",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.attack",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {
-        "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
-        }
-      }
-    },
-    {
-      "columns": {
-        "pokemon_id": {
-          "name": "pokemon_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "attack_id": {
-          "name": "attack_id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
-        }
-      },
-      "name": "pokemon_special_attacks",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "pokemon_special_attacks_pkey",
-          "columnNames": [
-            "pokemon_id",
-            "attack_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "pokemon_special_attacks_pokemon_id_foreign": {
-          "constraintName": "pokemon_special_attacks_pokemon_id_foreign",
-          "columnNames": [
-            "pokemon_id"
-          ],
-          "localTableName": "public.pokemon_special_attacks",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.pokemon",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "pokemon_special_attacks_attack_id_foreign": {
-          "constraintName": "pokemon_special_attacks_attack_id_foreign",
-          "columnNames": [
-            "attack_id"
-          ],
-          "localTableName": "public.pokemon_special_attacks",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.attack",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {
-        "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
-        }
-      }
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "unsigned": false,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "integer"
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(64)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 64,
-          "mappedType": "string"
-        },
-        "password_hash": {
-          "name": "password_hash",
-          "type": "varchar(256)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 256,
-          "mappedType": "string"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "users",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "users_email_unique",
-          "columnNames": [
-            "email"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": false,
-          "unique": true
-        },
-        {
-          "keyName": "users_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {},
-      "nativeEnums": {
-        "pokemon_type": {
-          "name": "pokemon_type",
-          "schema": "public",
-          "items": [
-            "BUG",
-            "DARK",
-            "DRAGON",
-            "ELECTRIC",
-            "FAIRY",
-            "FIGHTING",
-            "FIRE",
-            "FLYING",
-            "GHOST",
-            "GRASS",
-            "GROUND",
-            "ICE",
-            "NORMAL",
-            "POISON",
-            "PSYCHIC",
-            "ROCK",
-            "STEEL",
-            "WATER"
-          ]
-        },
-        "common_capture_area": {
-          "name": "common_capture_area",
-          "schema": "public",
-          "items": [
-            "ASIA",
-            "AUSTRALIA_NEW_ZEALAND",
-            "NORTH_AMERICA",
-            "WESTERN_EUROPE"
-          ]
-        }
-      }
     }
-  ],
-  "nativeEnums": {
-    "pokemon_type": {
-      "name": "pokemon_type",
-      "schema": "public",
-      "items": [
-        "BUG",
-        "DARK",
-        "DRAGON",
-        "ELECTRIC",
-        "FAIRY",
-        "FIGHTING",
-        "FIRE",
-        "FLYING",
-        "GHOST",
-        "GRASS",
-        "GROUND",
-        "ICE",
-        "NORMAL",
-        "POISON",
-        "PSYCHIC",
-        "ROCK",
-        "STEEL",
-        "WATER"
-      ]
-    },
-    "common_capture_area": {
-      "name": "common_capture_area",
-      "schema": "public",
-      "items": [
-        "ASIA",
-        "AUSTRALIA_NEW_ZEALAND",
-        "NORTH_AMERICA",
-        "WESTERN_EUROPE"
-      ]
-    }
-  }
 }

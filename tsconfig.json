@@ -1,12 +1,12 @@
 {
-  "extends": "@tsconfig/node24/tsconfig.json",
+    "extends": "@tsconfig/node24/tsconfig.json",
 
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./build",
-    "types": ["node", "jest"],
-    "declaration": true,
-    "experimentalDecorators": true
-  },
-  "exclude": ["./build", ".node_modules"]
+    "compilerOptions": {
+        "rootDir": "./src",
+        "outDir": "./build",
+        "types": ["node", "jest"],
+        "declaration": true,
+        "experimentalDecorators": true
+    },
+    "exclude": ["./build", ".node_modules"]
 }

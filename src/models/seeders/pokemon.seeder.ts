@@ -1,9 +1,14 @@
-import { EntityManager } from "@mikro-orm/postgresql";
-import { Seeder } from "@mikro-orm/seeder";
-import { promises as fs } from "node:fs";
-import { join } from "node:path";
-import { Attack } from "../entities/attack.entity";
-import { Pokemon, PokemonCaptureArea, PokemonClass, PokemonType } from "../entities/pokemon.entity";
+import { EntityManager } from '@mikro-orm/postgresql';
+import { Seeder } from '@mikro-orm/seeder';
+import { promises as fs } from 'node:fs';
+import { join } from 'node:path';
+import { Attack } from '../entities/attack.entity';
+import {
+    Pokemon,
+    PokemonCaptureArea,
+    PokemonClass,
+    PokemonType,
+} from '../entities/pokemon.entity';
 
 interface RawEvolutionRequirements {
     amount: number;
@@ -45,12 +50,12 @@ interface RawPokemon {
     };
     maxCP: number;
     maxHP: number;
-    "Common Capture Area"?: string;
+    'Common Capture Area'?: string;
     Asia?: string;
-    "North America"?: string;
-    "Australia, New Zealand"?: string;
-    "Western Europe"?: string;
-    "Pokémon Class"?: string;
+    'North America'?: string;
+    'Australia, New Zealand'?: string;
+    'Western Europe'?: string;
+    'Pokémon Class'?: string;
     LEGENDARY?: string;
     MYTHIC?: string;
 }
@@ -90,18 +95,24 @@ export class PokemonSeeder extends Seeder {
             }
 
             for (const evolution of data.evolutions ?? []) {
-                const targetPokemon = pokemonById.get(toPokemonId(evolution.id));
+                const targetPokemon = pokemonById.get(
+                    toPokemonId(evolution.id)
+                );
                 if (targetPokemon) {
                     sourcePokemon.evolutions.add(targetPokemon);
                 }
             }
 
             for (const attackData of data.attacks.fast) {
-                sourcePokemon.fastAttacks.add(this.getOrCreateAttack(em, attackByKey, attackData));
+                sourcePokemon.fastAttacks.add(
+                    this.getOrCreateAttack(em, attackByKey, attackData)
+                );
             }
 
             for (const attackData of data.attacks.special) {
-                sourcePokemon.specialAttacks.add(this.getOrCreateAttack(em, attackByKey, attackData));
+                sourcePokemon.specialAttacks.add(
+                    this.getOrCreateAttack(em, attackByKey, attackData)
+                );
             }
         }
 
@@ -109,8 +120,8 @@ export class PokemonSeeder extends Seeder {
     }
 
     private async loadPokemonsData(): Promise<RawPokemon[]> {
-        const filePath = join(process.cwd(), "resources", "pokemons.json");
-        const rawJson = await fs.readFile(filePath, "utf8");
+        const filePath = join(process.cwd(), 'resources', 'pokemons.json');
+        const rawJson = await fs.readFile(filePath, 'utf8');
 
         return JSON.parse(rawJson) as RawPokemon[];
     }
@@ -118,7 +129,7 @@ export class PokemonSeeder extends Seeder {
     private getOrCreateAttack(
         em: EntityManager,
         attackByKey: Map<string, Attack>,
-        data: RawAttack,
+        data: RawAttack
     ): Attack {
         const attackType = toPokemonType(data.type);
         const key = `${data.name}|${attackType}|${data.damage}`;
@@ -159,15 +170,15 @@ const toCaptureArea = (pokemon: RawPokemon): PokemonCaptureArea | undefined => {
         return PokemonCaptureArea.ASIA;
     }
 
-    if (pokemon["Australia, New Zealand"]) {
+    if (pokemon['Australia, New Zealand']) {
         return PokemonCaptureArea.AUSTRALIA_NEW_ZEALAND;
     }
 
-    if (pokemon["North America"]) {
+    if (pokemon['North America']) {
         return PokemonCaptureArea.NORTH_AMERICA;
     }
 
-    if (pokemon["Western Europe"]) {
+    if (pokemon['Western Europe']) {
         return PokemonCaptureArea.WESTERN_EUROPE;
     }
 

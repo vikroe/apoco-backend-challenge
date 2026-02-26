@@ -1,11 +1,11 @@
-import { User } from "../../models/entities/user.entity";
-import { getOrm } from "../../models/dataSource";
-import { hashPassword, verifyPassword } from "./utils/password";
+import { User } from '../../models/entities/user.entity';
+import { getOrm } from '../../models/dataSource';
+import { hashPassword, verifyPassword } from './utils/password';
 
 export class UserAlreadyExistsError extends Error {
     constructor(email: string) {
         super(`A user with email "${email}" already exists.`);
-        this.name = "UserAlreadyExistsError";
+        this.name = 'UserAlreadyExistsError';
     }
 }
 
@@ -13,7 +13,10 @@ const normalizeEmail = (email: string): string => {
     return email.trim().toLowerCase();
 };
 
-export const registerUser = async (email: string, password: string): Promise<User> => {
+export const registerUser = async (
+    email: string,
+    password: string
+): Promise<User> => {
     const normalizedEmail = normalizeEmail(email);
     const orm = await getOrm();
     const em = orm.em.fork();
@@ -36,7 +39,10 @@ export const registerUser = async (email: string, password: string): Promise<Use
     return user;
 };
 
-export const authenticateUser = async (email: string, password: string): Promise<User | null> => {
+export const authenticateUser = async (
+    email: string,
+    password: string
+): Promise<User | null> => {
     const normalizedEmail = normalizeEmail(email);
     const orm = await getOrm();
     const em = orm.em.fork();

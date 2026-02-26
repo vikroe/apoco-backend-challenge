@@ -1,5 +1,13 @@
-import { Collection, Entity, Enum, ManyToMany, PrimaryKey, Property, Unique } from "@mikro-orm/core";
-import { Pokemon, PokemonType } from "./pokemon.entity";
+import {
+    Collection,
+    Entity,
+    Enum,
+    ManyToMany,
+    PrimaryKey,
+    Property,
+    Unique,
+} from '@mikro-orm/core';
+import { Pokemon, PokemonType } from './pokemon.entity';
 
 @Entity()
 @Unique({ properties: ['name', 'type', 'damage'] })

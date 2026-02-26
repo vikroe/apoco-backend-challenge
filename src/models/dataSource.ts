@@ -1,7 +1,7 @@
-import { MikroORM } from "@mikro-orm/postgresql";
-import config from "./mikro-orm.config";
+import { MikroORM } from '@mikro-orm/postgresql';
+import config from './mikro-orm.config';
 
-let orm: MikroORM
+let orm: MikroORM;
 
 export async function getOrm() {
     if (!orm) orm = await MikroORM.init(config);

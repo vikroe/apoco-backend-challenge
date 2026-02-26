@@ -1,6 +1,11 @@
-import { FastifyPluginAsync, FastifySchema } from "fastify";
-import { CredentialsBody, loginController, meController, registerController } from "./auth.controller";
-import { SCHEMA_REGISTRY } from "../schemaRegistry";
+import { FastifyPluginAsync, FastifySchema } from 'fastify';
+import {
+    CredentialsBody,
+    loginController,
+    meController,
+    registerController,
+} from './auth.controller';
+import { SCHEMA_REGISTRY } from '../schemaRegistry';
 
 type OpenApiSchema = FastifySchema & {
     tags?: string[];
@@ -10,7 +15,10 @@ type OpenApiSchema = FastifySchema & {
     security?: Array<Record<string, string[]>>;
 };
 
-const getSchemaOrThrow = (server: Parameters<FastifyPluginAsync>[0], schemaId: string): unknown => {
+const getSchemaOrThrow = (
+    server: Parameters<FastifyPluginAsync>[0],
+    schemaId: string
+): unknown => {
     const schema = server.getSchema(schemaId);
     if (!schema) {
         throw new Error(`Schema with id "${schemaId}" is not registered.`);
@@ -20,36 +28,51 @@ const getSchemaOrThrow = (server: Parameters<FastifyPluginAsync>[0], schemaId: s
 };
 
 const registerRouteSchema: OpenApiSchema = {
-    tags: ["Auth"],
-    summary: "Register user",
-    description: "Create a new user account and return an access token.",
-    operationId: "registerUser",
+    tags: ['Auth'],
+    summary: 'Register user',
+    description: 'Create a new user account and return an access token.',
+    operationId: 'registerUser',
 };
 
 const loginRouteSchema: OpenApiSchema = {
-    tags: ["Auth"],
-    summary: "Login user",
-    description: "Authenticate a user and return an access token.",
-    operationId: "loginUser",
+    tags: ['Auth'],
+    summary: 'Login user',
+    description: 'Authenticate a user and return an access token.',
+    operationId: 'loginUser',
 };
 
 const meRouteSchema: OpenApiSchema = {
-    tags: ["Auth"],
-    summary: "Get current user",
-    description: "Return the currently authenticated user.",
-    operationId: "getCurrentUser",
+    tags: ['Auth'],
+    summary: 'Get current user',
+    description: 'Return the currently authenticated user.',
+    operationId: 'getCurrentUser',
     security: [{ bearerAuth: [] }],
 };
 
-const authRoutes: FastifyPluginAsync = async (server) => {
-    const credentialsBodySchema = getSchemaOrThrow(server, SCHEMA_REGISTRY.auth.credentialsBody);
-    const authResponseSchema = getSchemaOrThrow(server, SCHEMA_REGISTRY.auth.authResponse);
-    const meResponseSchema = getSchemaOrThrow(server, SCHEMA_REGISTRY.auth.meResponse);
-    const errorResponseSchema = getSchemaOrThrow(server, SCHEMA_REGISTRY.common.errorResponse);
-    const authHeaderSchema = getSchemaOrThrow(server, SCHEMA_REGISTRY.common.authHeader);
+const authRoutes: FastifyPluginAsync = async server => {
+    const credentialsBodySchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.auth.credentialsBody
+    );
+    const authResponseSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.auth.authResponse
+    );
+    const meResponseSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.auth.meResponse
+    );
+    const errorResponseSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.common.errorResponse
+    );
+    const authHeaderSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.common.authHeader
+    );
 
     server.post<{ Body: CredentialsBody }>(
-        "/auth/register",
+        '/auth/register',
         {
             schema: {
                 ...registerRouteSchema,
@@ -62,11 +85,11 @@ const authRoutes: FastifyPluginAsync = async (server) => {
                 },
             },
         },
-        registerController,
+        registerController
     );
 
     server.post<{ Body: CredentialsBody }>(
-        "/auth/login",
+        '/auth/login',
         {
             schema: {
                 ...loginRouteSchema,
@@ -79,11 +102,11 @@ const authRoutes: FastifyPluginAsync = async (server) => {
                 },
             },
         },
-        loginController,
+        loginController
     );
 
     server.get(
-        "/auth/me",
+        '/auth/me',
         {
             preHandler: server.authenticate,
             schema: {
@@ -96,7 +119,7 @@ const authRoutes: FastifyPluginAsync = async (server) => {
                 },
             },
         },
-        meController,
+        meController
     );
 };
 

@@ -1,3 +1,3 @@
 export const pingController = async (): Promise<string> => {
-    return "pong\n";
+    return 'pong\n';
 };
