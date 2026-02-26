@@ -1,6 +1,8 @@
 import { MikroORM } from "@mikro-orm/postgresql";
 import fastify, { FastifyInstance } from "fastify";
 import { getOrm } from "./models/dataSource";
+import { registerAuthTools } from "./modules/auth/auth.tools";
+import schemasPlugin from "./plugins/schemas.plugin";
 import routes from "./routes";
 
 export default class Application {
@@ -14,6 +16,8 @@ export default class Application {
         this.port = Number(process.env.API_PORT ?? 8080);
         this.host = process.env.API_HOST ?? "localhost";
 
+        registerAuthTools(this.server);
+        this.server.register(schemasPlugin);
         this.server.register(routes);
         this.server.addHook("onClose", async () => {
             await this.closeOrm();

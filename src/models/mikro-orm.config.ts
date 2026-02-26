@@ -4,7 +4,7 @@ import { SeedManager } from '@mikro-orm/seeder';
 
 const config: Options = {
   driver: PostgreSqlDriver,
-  preferTs: false,
+  preferTs: true,
   entities: ['build/models/entities/*.js'],
   entitiesTs: ['src/models/entities/*.ts'],
   migrations: {
