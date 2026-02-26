@@ -4,6 +4,7 @@ import { getOrm } from './models/dataSource';
 import { registerAuthTools } from './modules/auth/auth.tools';
 import schemasPlugin from './plugins/schemas.plugin';
 import routesRegistry from './modules/routesRegistry';
+import { registerSwaggerTools } from './modules/swagger/swagger.tools';
 
 export default class Application {
     private readonly server: FastifyInstance;
@@ -18,6 +19,7 @@ export default class Application {
 
         registerAuthTools(this.server);
         this.server.register(schemasPlugin);
+        registerSwaggerTools(this.server);
         this.server.register(routesRegistry);
         this.server.addHook('onClose', async () => {
             await this.closeOrm();
