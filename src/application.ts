@@ -3,7 +3,7 @@ import fastify, { FastifyInstance } from 'fastify';
 import { getOrm } from './models/dataSource';
 import { registerAuthTools } from './modules/auth/auth.tools';
 import schemasPlugin from './plugins/schemas.plugin';
-import routes from './routes';
+import routesRegistry from './modules/routesRegistry';
 
 export default class Application {
     private readonly server: FastifyInstance;
@@ -18,7 +18,7 @@ export default class Application {
 
         registerAuthTools(this.server);
         this.server.register(schemasPlugin);
-        this.server.register(routes);
+        this.server.register(routesRegistry);
         this.server.addHook('onClose', async () => {
             await this.closeOrm();
         });
