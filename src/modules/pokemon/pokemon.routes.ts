@@ -1,4 +1,4 @@
-import { FastifyPluginAsync, FastifySchema } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
 import { getPokemonController } from './pokemon.controller';
 import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';

@@ -46,13 +46,7 @@ export interface PokemonResponse {
     evolutionRequirements?: PokemonEvolutionRequirementsResponse;
     evolutions?: PokemonEvolutionResponse[];
     'Common Capture Area'?: string;
-    Asia?: string;
-    'Australia, New Zealand'?: string;
-    'North America'?: string;
-    'Western Europe'?: string;
     'Pokémon Class'?: string;
-    LEGENDARY?: string;
-    MYTHIC?: string;
     maxCP: number;
     maxHP: number;
     attacks: {
@@ -158,13 +152,11 @@ export const serializePokemon = (
         const captureAreaKey = CAPTURE_AREA_KEYS[pokemon.commonCaptureArea];
         serializedPokemon['Common Capture Area'] =
             toCaptureAreaDescription(captureAreaKey);
-        serializedPokemon[captureAreaKey] = 'Common Capture Area';
     }
 
     if (pokemon.pokemonClass) {
         serializedPokemon['Pokémon Class'] =
             `This is a ${pokemon.pokemonClass} Pokémon.`;
-        serializedPokemon[pokemon.pokemonClass] = 'Pokémon Class';
     }
 
     serializedPokemon.maxCP = pokemon.maxCP;

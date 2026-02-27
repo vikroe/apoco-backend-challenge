@@ -1,4 +1,4 @@
-import { FastifyPluginAsync, FastifySchema } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
 import {
     CredentialsBody,
     loginController,

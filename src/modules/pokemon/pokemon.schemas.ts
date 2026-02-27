@@ -124,31 +124,7 @@ export const POKEMON_SCHEMAS = [
                 items: { $ref: `${SCHEMA_REGISTRY.pokemon.evolution}#` },
             },
             'Common Capture Area': { type: 'string', minLength: 1 },
-            Asia: {
-                type: 'string',
-                enum: ['Common Capture Area'],
-            },
-            'Australia, New Zealand': {
-                type: 'string',
-                enum: ['Common Capture Area'],
-            },
-            'North America': {
-                type: 'string',
-                enum: ['Common Capture Area'],
-            },
-            'Western Europe': {
-                type: 'string',
-                enum: ['Common Capture Area'],
-            },
             'Pokémon Class': { type: 'string', minLength: 1 },
-            LEGENDARY: {
-                type: 'string',
-                enum: ['Pokémon Class'],
-            },
-            MYTHIC: {
-                type: 'string',
-                enum: ['Pokémon Class'],
-            },
             maxCP: { type: 'integer', minimum: 1 },
             maxHP: { type: 'integer', minimum: 1 },
             attacks: { $ref: `${SCHEMA_REGISTRY.pokemon.attacks}#` },
