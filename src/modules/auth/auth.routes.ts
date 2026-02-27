@@ -6,26 +6,7 @@ import {
     registerController,
 } from './auth.controller';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
-
-type OpenApiSchema = FastifySchema & {
-    tags?: string[];
-    summary?: string;
-    description?: string;
-    operationId?: string;
-    security?: Array<Record<string, string[]>>;
-};
-
-const getSchemaOrThrow = (
-    server: Parameters<FastifyPluginAsync>[0],
-    schemaId: string
-): unknown => {
-    const schema = server.getSchema(schemaId);
-    if (!schema) {
-        throw new Error(`Schema with id "${schemaId}" is not registered.`);
-    }
-
-    return schema;
-};
+import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
 
 const registerRouteSchema: OpenApiSchema = {
     tags: ['Auth'],
@@ -108,7 +89,7 @@ const authRoutes: FastifyPluginAsync = async server => {
     server.get(
         '/auth/me',
         {
-            preHandler: server.authenticate,
+            onRequest: server.authenticate,
             schema: {
                 ...meRouteSchema,
                 headers: authHeaderSchema,

@@ -1,13 +1,7 @@
 import { User } from '../../models/entities/user.entity';
 import { getOrm } from '../../models/dataSource';
 import { hashPassword, verifyPassword } from './utils/password';
-
-export class UserAlreadyExistsError extends Error {
-    constructor(email: string) {
-        super(`A user with email "${email}" already exists.`);
-        this.name = 'UserAlreadyExistsError';
-    }
-}
+import { UserAlreadyExistsError } from '../../utils/errors';
 
 const normalizeEmail = (email: string): string => {
     return email.trim().toLowerCase();

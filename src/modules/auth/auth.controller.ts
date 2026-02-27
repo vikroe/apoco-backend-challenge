@@ -1,11 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import {
-    authenticateUser,
-    getUserById,
-    registerUser,
-    UserAlreadyExistsError,
-} from './auth.service';
+import { authenticateUser, getUserById, registerUser } from './auth.service';
 import { ACCESS_TOKEN_TTL_SECONDS } from './auth.config';
+import { UserAlreadyExistsError } from '../../utils/errors';
 
 export interface CredentialsBody {
     email: string;
