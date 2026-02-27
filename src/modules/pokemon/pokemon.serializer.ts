@@ -42,11 +42,11 @@ export interface PokemonResponse {
     weight: PokemonDimensionResponse;
     height: PokemonDimensionResponse;
     fleeRate: number;
-    'Previous evolution(s)'?: PokemonEvolutionResponse[];
+    previousEvolutions?: PokemonEvolutionResponse[];
     evolutionRequirements?: PokemonEvolutionRequirementsResponse;
     evolutions?: PokemonEvolutionResponse[];
-    'Common Capture Area'?: string;
-    'Pokémon Class'?: string;
+    commonCaptureArea?: string;
+    class?: string;
     maxCP: number;
     maxHP: number;
     attacks: {
@@ -71,10 +71,6 @@ const CAPTURE_AREA_KEYS: Record<PokemonCaptureArea, PokemonCaptureAreaKey> = {
     [PokemonCaptureArea.AUSTRALIA_NEW_ZEALAND]: 'Australia, New Zealand',
     [PokemonCaptureArea.NORTH_AMERICA]: 'North America',
     [PokemonCaptureArea.WESTERN_EUROPE]: 'Western Europe',
-};
-
-const toCaptureAreaDescription = (area: PokemonCaptureAreaKey): string => {
-    return `Early reports that this Pokémon is likely to be found in: ${area}`;
 };
 
 const toTitleCaseType = (type: PokemonType): string => {
@@ -136,7 +132,7 @@ export const serializePokemon = (
         pokemon.previousEvolutions.getItems()
     );
     if (previousEvolutions.length > 0) {
-        serializedPokemon['Previous evolution(s)'] = previousEvolutions;
+        serializedPokemon.previousEvolutions = previousEvolutions;
     }
 
     if (pokemon.evolutionRequirements) {
@@ -150,13 +146,11 @@ export const serializePokemon = (
 
     if (pokemon.commonCaptureArea) {
         const captureAreaKey = CAPTURE_AREA_KEYS[pokemon.commonCaptureArea];
-        serializedPokemon['Common Capture Area'] =
-            toCaptureAreaDescription(captureAreaKey);
+        serializedPokemon.commonCaptureArea = captureAreaKey;
     }
 
     if (pokemon.pokemonClass) {
-        serializedPokemon['Pokémon Class'] =
-            `This is a ${pokemon.pokemonClass} Pokémon.`;
+        serializedPokemon.class = pokemon.pokemonClass;
     }
 
     serializedPokemon.maxCP = pokemon.maxCP;

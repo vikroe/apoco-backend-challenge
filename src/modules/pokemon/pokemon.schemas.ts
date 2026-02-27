@@ -112,7 +112,7 @@ export const POKEMON_SCHEMAS = [
             weight: { $ref: `${SCHEMA_REGISTRY.pokemon.dimension}#` },
             height: { $ref: `${SCHEMA_REGISTRY.pokemon.dimension}#` },
             fleeRate: { type: 'number', minimum: 0 },
-            'Previous evolution(s)': {
+            previousEvolutions: {
                 type: 'array',
                 items: { $ref: `${SCHEMA_REGISTRY.pokemon.evolution}#` },
             },
@@ -123,8 +123,8 @@ export const POKEMON_SCHEMAS = [
                 type: 'array',
                 items: { $ref: `${SCHEMA_REGISTRY.pokemon.evolution}#` },
             },
-            'Common Capture Area': { type: 'string', minLength: 1 },
-            'Pokémon Class': { type: 'string', minLength: 1 },
+            commonCaptureArea: { type: 'string', minLength: 1 },
+            class: { type: 'string', minLength: 1 },
             maxCP: { type: 'integer', minimum: 1 },
             maxHP: { type: 'integer', minimum: 1 },
             attacks: { $ref: `${SCHEMA_REGISTRY.pokemon.attacks}#` },
