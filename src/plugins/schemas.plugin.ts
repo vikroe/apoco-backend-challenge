@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { AUTH_SCHEMAS } from '../modules/auth/auth.schemas';
 import { COMMON_SCHEMA_DEFINITION } from '../modules/common/common.schemas';
+import { POKEMON_SCHEMAS } from '../modules/pokemon/pokemon.schemas';
 
 interface SchemaWithId {
     $id: string;
@@ -10,6 +11,7 @@ interface SchemaWithId {
 const schemaDefinitions = [
     ...COMMON_SCHEMA_DEFINITION,
     ...AUTH_SCHEMAS,
+    ...POKEMON_SCHEMAS,
 ] as const;
 
 const schemasPlugin: FastifyPluginAsync = async server => {

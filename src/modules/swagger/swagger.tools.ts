@@ -12,13 +12,20 @@ export function registerSwaggerTools(server: FastifyInstance): void {
             openapi: '3.0.0',
             info: {
                 title: 'Apoco Backend Challenge API',
-                description: 'API documentation for the Apoco backend challenge.',
+                description:
+                    'API documentation for the Apoco backend challenge.',
                 version: '1.0.0',
             },
-            servers: [{ url: `http://${apiHost}:${apiPort}`, description: 'Local development' }],
+            servers: [
+                {
+                    url: `http://${apiHost}:${apiPort}`,
+                    description: 'Local development',
+                },
+            ],
             tags: [
                 { name: 'Auth', description: 'Authentication endpoints' },
                 { name: 'Health', description: 'Health check endpoints' },
+                { name: 'Pokemon', description: 'Pokemon endpoints' },
             ],
             components: {
                 securitySchemes: {
