@@ -14,7 +14,7 @@ export interface CredentialsBody {
 
 type CredentialsRequest = FastifyRequest<{ Body: CredentialsBody }>;
 
-const toAuthResponse = (token: string, user: { id: number; email: string }) => {
+const toAuthResponse = (token: string, user: { id: string; email: string }) => {
     return {
         accessToken: token,
         tokenType: 'Bearer',

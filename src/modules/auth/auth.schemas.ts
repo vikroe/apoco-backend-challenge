@@ -17,7 +17,7 @@ export const AUTH_SCHEMAS = [
         additionalProperties: false,
         required: ['id', 'email'],
         properties: {
-            id: { type: 'integer' },
+            id: { type: 'string', format: 'uuid' },
             email: { type: 'string', format: 'email', maxLength: 64 },
         },
     },

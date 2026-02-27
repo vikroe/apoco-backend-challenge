@@ -60,7 +60,7 @@ export const authenticateUser = async (
     return user;
 };
 
-export const getUserById = async (id: number): Promise<User | null> => {
+export const getUserById = async (id: string): Promise<User | null> => {
     const orm = await getOrm();
     const em = orm.em.fork();
 
