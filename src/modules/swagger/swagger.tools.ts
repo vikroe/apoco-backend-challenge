@@ -3,9 +3,6 @@ import swagger from '@fastify/swagger';
 import swaggerUI from '@fastify/swagger-ui';
 
 export function registerSwaggerTools(server: FastifyInstance): void {
-    const apiHost = process.env.API_HOST ?? 'localhost';
-    const apiPort = Number(process.env.API_PORT ?? 8080);
-
     server.register(swagger, {
         mode: 'dynamic',
         openapi: {
@@ -18,8 +15,8 @@ export function registerSwaggerTools(server: FastifyInstance): void {
             },
             servers: [
                 {
-                    url: `http://${apiHost}:${apiPort}`,
-                    description: 'Local development',
+                    url: '/',
+                    description: 'Current origin',
                 },
             ],
             tags: [
