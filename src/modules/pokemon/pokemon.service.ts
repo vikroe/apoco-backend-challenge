@@ -36,3 +36,22 @@ export const getPokemonById = async (
 
     return pokemon;
 };
+
+export const getPokemonByName = async (
+  name: string
+): Promise<PokemonWithRelations> => {
+  const em = getOrm().em.fork();
+  const normalizedName = name.trim();
+
+  const pokemon = await em.findOne(
+    Pokemon,
+    { name: { $ilike: normalizedName } },
+    { populate: ['evolutions', 'previousEvolutions', 'fastAttacks', 'specialAttacks'] }
+  );
+
+  if (!pokemon) {
+    throw new NotFoundError('Could not find a pokemon for this name', Pokemon);
+  }
+
+  return pokemon;
+};

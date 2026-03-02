@@ -11,6 +11,7 @@ export const SCHEMA_REGISTRY = {
     },
     pokemon: {
         getByIdParams: 'schema:pokemon:getByIdParams',
+        getByNameParams: 'schema:pokemon:getByNameParams',
         response: 'schema:pokemon:response',
         dimension: 'schema:pokemon:dimension',
         evolutionRequirements: 'schema:pokemon:evolutionRequirements',

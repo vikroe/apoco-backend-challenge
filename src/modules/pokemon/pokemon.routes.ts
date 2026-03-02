@@ -1,17 +1,29 @@
 import { FastifyPluginAsync } from 'fastify';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
-import { getPokemonController } from './pokemon.controller';
+import { getPokemonByIdController, getPokemonByNameController } from './pokemon.controller';
 import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
 
-interface PokemonByIdRouteParams {
+export interface PokemonByIdRouteParams {
     id: string;
 }
 
-const getPokemonRouteSchema: OpenApiSchema = {
+export interface PokemonByNameRouteParams {
+    name: string;
+}
+
+const getPokemonByIdRouteSchema: OpenApiSchema = {
     tags: ['Pokemon'],
     summary: 'Get pokemon by id',
-    description: 'Return a pokemon in the original seed JSON shape.',
+    description: 'Return pokemon description by its id.',
     operationId: 'getPokemonById',
+    security: [{ bearerAuth: [] }],
+};
+
+const getPokemonByNameRouteSchema: OpenApiSchema = {
+    tags: ['Pokemon'],
+    summary: 'Get pokemon by name',
+    description: 'Return pokemon description by its name.',
+    operationId: 'getPokemonByName',
     security: [{ bearerAuth: [] }],
 };
 
@@ -23,6 +35,10 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
     const getByIdParamsSchema = getSchemaOrThrow(
         server,
         SCHEMA_REGISTRY.pokemon.getByIdParams
+    );
+    const getByNameParamsSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.pokemon.getByNameParams
     );
     const pokemonResponseSchema = getSchemaOrThrow(
         server,
@@ -38,7 +54,7 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
         {
             onRequest: server.authenticate,
             schema: {
-                ...getPokemonRouteSchema,
+                ...getPokemonByIdRouteSchema,
                 headers: authHeaderSchema,
                 params: getByIdParamsSchema,
                 response: {
@@ -50,8 +66,28 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
                 },
             },
         },
-        getPokemonController
+        getPokemonByIdController
     );
+
+    server.get<{ Params: PokemonByNameRouteParams}>(
+        '/pokemon/name/:name',
+        {
+            onRequest: server.authenticate,
+            schema: {
+                ...getPokemonByNameRouteSchema,
+                headers: authHeaderSchema,
+                params: getByNameParamsSchema,
+                response: {
+                    200: pokemonResponseSchema,
+                    400: errorResponseSchema,
+                    401: errorResponseSchema,
+                    404: errorResponseSchema,
+                    500: errorResponseSchema,
+                }
+            }
+        },
+        getPokemonByNameController
+    )
 };
 
 export default pokemonRoutes;

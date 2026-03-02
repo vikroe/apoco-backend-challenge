@@ -1,14 +1,11 @@
 import { NotFoundError } from '@mikro-orm/core';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { serializePokemon } from './pokemon.serializer';
-import { getPokemonById } from './pokemon.service';
+import { getPokemonById, getPokemonByName } from './pokemon.service';
+import { PokemonByIdRouteParams, PokemonByNameRouteParams } from './pokemon.routes';
 
-interface PokemonByIdParams {
-    id: string;
-}
-
-export const getPokemonController = async (
-    request: FastifyRequest<{ Params: PokemonByIdParams }>,
+export const getPokemonByIdController = async (
+    request: FastifyRequest<{ Params: PokemonByIdRouteParams }>,
     reply: FastifyReply
 ): Promise<void> => {
     try {
@@ -23,3 +20,20 @@ export const getPokemonController = async (
         throw error;
     }
 };
+
+export const getPokemonByNameController = async (
+    request: FastifyRequest<{ Params: PokemonByNameRouteParams }>,
+    reply: FastifyReply
+): Promise<void> => {
+    try {
+        const pokemon = await getPokemonByName(request.params.name);
+        reply.code(200).send(serializePokemon(pokemon));
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            reply.code(404).send({ message: error.message });
+            return;
+        }
+
+        throw error;
+    }
+}

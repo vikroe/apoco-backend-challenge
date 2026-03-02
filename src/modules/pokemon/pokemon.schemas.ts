@@ -19,6 +19,15 @@ export const POKEMON_SCHEMAS = [
         },
     },
     {
+        $id: SCHEMA_REGISTRY.pokemon.getByNameParams,
+        type: 'object',
+        additionalProperties: false,
+        required: ['name'],
+        properties: {
+            id: { type: 'string', minLength: 1 },
+        },
+    },
+    {
         $id: SCHEMA_REGISTRY.pokemon.dimension,
         type: 'object',
         additionalProperties: false,
