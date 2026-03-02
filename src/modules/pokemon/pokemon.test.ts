@@ -156,9 +156,11 @@ describe('pokemon integration', () => {
     it('returns the expected pokemon payload when looking up by name', async () => {
         const byIdResponse = await getPokemon('001');
         const byNameResponse = await getPokemonByName('Bulbasaur');
+        const byLowercaseNameResponse = await getPokemonByName('bulbasaur');
 
         expect(byNameResponse.statusCode).toBe(200);
         expect(byNameResponse.json()).toEqual(byIdResponse.json());
+        expect(byNameResponse.json()).toEqual(byLowercaseNameResponse.json());
     });
 
     it('supports pokemon names with spaces and punctuation', async () => {
