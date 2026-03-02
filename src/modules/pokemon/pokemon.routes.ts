@@ -1,6 +1,9 @@
 import { FastifyPluginAsync } from 'fastify';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
-import { getPokemonByIdController, getPokemonByNameController } from './pokemon.controller';
+import {
+    getPokemonByIdController,
+    getPokemonByNameController,
+} from './pokemon.controller';
 import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
 
 export interface PokemonByIdRouteParams {
@@ -69,7 +72,7 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
         getPokemonByIdController
     );
 
-    server.get<{ Params: PokemonByNameRouteParams}>(
+    server.get<{ Params: PokemonByNameRouteParams }>(
         '/pokemon/name/:name',
         {
             onRequest: server.authenticate,
@@ -83,11 +86,11 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
                     401: errorResponseSchema,
                     404: errorResponseSchema,
                     500: errorResponseSchema,
-                }
-            }
+                },
+            },
         },
         getPokemonByNameController
-    )
+    );
 };
 
 export default pokemonRoutes;

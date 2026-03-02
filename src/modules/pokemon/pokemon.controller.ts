@@ -2,7 +2,10 @@ import { NotFoundError } from '@mikro-orm/core';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { serializePokemon } from './pokemon.serializer';
 import { getPokemonById, getPokemonByName } from './pokemon.service';
-import { PokemonByIdRouteParams, PokemonByNameRouteParams } from './pokemon.routes';
+import {
+    PokemonByIdRouteParams,
+    PokemonByNameRouteParams,
+} from './pokemon.routes';
 
 export const getPokemonByIdController = async (
     request: FastifyRequest<{ Params: PokemonByIdRouteParams }>,
@@ -36,4 +39,4 @@ export const getPokemonByNameController = async (
 
         throw error;
     }
-}
+};

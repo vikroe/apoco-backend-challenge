@@ -4,18 +4,18 @@ import { Pokemon } from '../models/entities/pokemon.entity.js';
 import { PokemonSeeder } from '../models/seeders/pokemon.seeder.js';
 
 async function init() {
-  const orm = await MikroORM.init(buildOrmConfig());
+    const orm = await MikroORM.init(buildOrmConfig());
 
-  try {
-    await orm.migrator.up();
+    try {
+        await orm.migrator.up();
 
-    const alreadySeeded = (await orm.em.fork().count(Pokemon, {})) > 0;
-    if (!alreadySeeded) {
-      await orm.seeder.seed(PokemonSeeder);
+        const alreadySeeded = (await orm.em.fork().count(Pokemon, {})) > 0;
+        if (!alreadySeeded) {
+            await orm.seeder.seed(PokemonSeeder);
+        }
+    } finally {
+        await orm.close(true);
     }
-  } finally {
-    await orm.close(true);
-  }
 }
 
 init();

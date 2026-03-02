@@ -64,13 +64,7 @@ describe('pokemon integration', () => {
             name: 'Bulbasaur',
             classification: 'Seed Pokémon',
             types: ['Grass', 'Poison'],
-            resistant: [
-                'Water',
-                'Electric',
-                'Grass',
-                'Fighting',
-                'Fairy',
-            ],
+            resistant: ['Water', 'Electric', 'Grass', 'Fighting', 'Fairy'],
             weaknesses: ['Fire', 'Ice', 'Flying', 'Psychic'],
             weight: {
                 minimum: '6.04kg',

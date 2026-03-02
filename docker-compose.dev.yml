@@ -11,7 +11,7 @@ services:
         volumes:
             - pokemon-dev-db-data:/var/lib/postgresql/data
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+            test: ['CMD-SHELL', 'pg_isready -U postgres -d postgres']
             interval: 2s
             timeout: 5s
             retries: 20
@@ -28,7 +28,7 @@ services:
         volumes:
             - .:/app
         command: sh -c "yarn install --frozen-lockfile && yarn dev-db:init"
-        restart: "no"
+        restart: 'no'
 
 volumes:
     pokemon-dev-db-data:
