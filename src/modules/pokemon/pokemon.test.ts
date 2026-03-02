@@ -45,6 +45,16 @@ describe('pokemon integration', () => {
         });
     };
 
+    const getPokemonByName = (name: string) => {
+        return app.inject({
+            method: 'GET',
+            url: `/api/v1/pokemon/name/${encodeURIComponent(name)}`,
+            headers: {
+                authorization: `Bearer ${accessToken}`,
+            },
+        });
+    };
+
     it('returns the expected Bulbasaur payload from the seeded dataset', async () => {
         const response = await getPokemon('001');
 
@@ -140,6 +150,32 @@ describe('pokemon integration', () => {
         expect(response.statusCode).toBe(404);
         expect(response.json<{ message: string }>()).toEqual({
             message: 'Could not find a pokemon for this ID',
+        });
+    });
+
+    it('returns the expected pokemon payload when looking up by name', async () => {
+        const byIdResponse = await getPokemon('001');
+        const byNameResponse = await getPokemonByName('Bulbasaur');
+
+        expect(byNameResponse.statusCode).toBe(200);
+        expect(byNameResponse.json()).toEqual(byIdResponse.json());
+    });
+
+    it('supports pokemon names with spaces and punctuation', async () => {
+        const response = await getPokemonByName('Mr. Mime');
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<{ name: string }>()).toMatchObject({
+            name: 'Mr. Mime',
+        });
+    });
+
+    it('returns 404 when the pokemon name does not exist', async () => {
+        const response = await getPokemonByName('Missingno');
+
+        expect(response.statusCode).toBe(404);
+        expect(response.json<{ message: string }>()).toEqual({
+            message: 'Could not find a pokemon for this name',
         });
     });
 });

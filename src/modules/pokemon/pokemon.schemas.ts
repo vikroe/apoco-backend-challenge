@@ -24,7 +24,7 @@ export const POKEMON_SCHEMAS = [
         additionalProperties: false,
         required: ['name'],
         properties: {
-            id: { type: 'string', minLength: 1 },
+            name: { type: 'string', minLength: 1 },
         },
     },
     {
