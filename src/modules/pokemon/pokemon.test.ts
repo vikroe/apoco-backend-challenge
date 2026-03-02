@@ -103,7 +103,9 @@ describe('pokemon integration', () => {
 
         expect(response.statusCode).toBe(200);
         expect(firstPokemonResponse.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 1,
             limit: 20,
             total: 151,
@@ -118,9 +120,9 @@ describe('pokemon integration', () => {
                 .data.slice(0, 3)
                 .map(pokemon => pokemon.id)
         ).toEqual(['001', '002', '003']);
-        expect(response.json<PaginatedResponse<PokemonResponse>>().data[0]).toEqual(
-            firstPokemonResponse.json<PokemonResponse>()
-        );
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>().data[0]
+        ).toEqual(firstPokemonResponse.json<PokemonResponse>());
     });
 
     it('supports page and limit query parameters for pokemon pagination', async () => {
@@ -130,7 +132,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 2,
             limit: 3,
             total: 151,
@@ -150,7 +154,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 99,
             limit: 20,
             total: 151,
@@ -165,7 +171,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 1,
             limit: 20,
             total: 12,
@@ -197,7 +205,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 1,
             limit: 20,
             total: 9,
@@ -226,7 +236,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 1,
             limit: 20,
             total: 3,
@@ -246,7 +258,9 @@ describe('pokemon integration', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>()
+        ).toMatchObject({
             page: 1,
             limit: 20,
             total: 3,

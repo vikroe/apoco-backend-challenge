@@ -32,25 +32,23 @@ export const listPokemon = async ({
 }: ListPokemonOptions): Promise<PaginatedResponse<PokemonWithRelations>> => {
     const em = getOrm().em.fork();
     const offset = (page - 1) * limit;
-    const normalizedTypes = types.map(type => type.toUpperCase() as PokemonType);
+    const normalizedTypes = types.map(
+        type => type.toUpperCase() as PokemonType
+    );
     const where = {
         ...(normalizedTypes.length > 0
             ? { types: { $contains: normalizedTypes } }
             : {}),
         ...(name ? { name: { $ilike: `%${name}%` } } : {}),
     };
-    const [pokemons, total] = await em.findAndCount(
-        Pokemon,
-        where,
-        {
-            populate: POKEMON_RELATIONS,
-            orderBy: {
-                [NUMERIC_POKEMON_ID_ORDER]: QueryOrder.ASC,
-            },
-            limit,
-            offset,
-        }
-    );
+    const [pokemons, total] = await em.findAndCount(Pokemon, where, {
+        populate: POKEMON_RELATIONS,
+        orderBy: {
+            [NUMERIC_POKEMON_ID_ORDER]: QueryOrder.ASC,
+        },
+        limit,
+        offset,
+    });
 
     return {
         data: pokemons,

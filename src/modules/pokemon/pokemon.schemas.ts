@@ -22,7 +22,7 @@ export const POKEMON_SCHEMAS = [
                 type: 'array',
                 items: { type: 'string', enum: POKEMON_TYPE_ENUM },
             },
-            name: { type: 'string' }
+            name: { type: 'string' },
         },
     },
     {
