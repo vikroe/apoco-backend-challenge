@@ -5,9 +5,7 @@ let orm: MikroORM | undefined;
 
 export type OrmConfigOverrides = Partial<Options>;
 
-export const buildOrmConfig = (
-    overrides: OrmConfigOverrides = {}
-): Options => {
+export const buildOrmConfig = (overrides: OrmConfigOverrides = {}): Options => {
     return {
         ...config,
         ...overrides,

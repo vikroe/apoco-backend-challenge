@@ -5,7 +5,7 @@ import schemasPlugin from './plugins/schemas.plugin';
 import routesRegistry from './modules/routesRegistry';
 import { registerSwaggerTools } from './modules/swagger/swagger.tools';
 
-const buildApplication = (): FastifyInstance => {
+export const buildApplication = (): FastifyInstance => {
     const server = fastify();
 
     registerAuthTools(server);
