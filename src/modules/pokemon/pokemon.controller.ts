@@ -86,6 +86,3 @@ export const listPokemonTypesController = (
 ): void => {
     reply.code(200).send(listPokemonTypes());
 };
-
-
-export const 
