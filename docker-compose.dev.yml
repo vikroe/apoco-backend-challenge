@@ -8,3 +8,27 @@ services:
             POSTGRES_USER: postgres
         ports:
             - '5433:5432'
+        volumes:
+            - pokemon-dev-db-data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+            interval: 2s
+            timeout: 5s
+            retries: 20
+    db-init:
+        image: node:24-alpine
+        working_dir: /app
+        depends_on:
+            db:
+                condition: service_healthy
+        env_file: .env
+        environment:
+            MIKRO_ORM_HOST: db
+            MIKRO_ORM_PORT: 5432
+        volumes:
+            - .:/app
+        command: sh -c "yarn install --frozen-lockfile && yarn dev-db:init"
+        restart: "no"
+
+volumes:
+    pokemon-dev-db-data:

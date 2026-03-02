@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { getEnvValue } from '../utils/env';
 
 const VITEST_ENV_PATH = resolve(process.cwd(), '.env.vitest');
 let loaded = false;
@@ -17,17 +18,6 @@ export const loadVitestEnv = (): void => {
     loaded = true;
 };
 
-export const getRequiredEnv = (name: string): string => {
-    loadVitestEnv();
-
-    const value = process.env[name];
-    if (!value) {
-        throw new Error(`${name} env variable is required.`);
-    }
-
-    return value;
-};
-
 export const getTestDbName = (): string => {
-    return getRequiredEnv('MIKRO_ORM_DB_NAME');
+    return getEnvValue('MIKRO_ORM_DB_NAME');
 };
