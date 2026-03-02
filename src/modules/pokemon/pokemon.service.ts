@@ -1,4 +1,10 @@
-import { Loaded, NotFoundError, QueryOrder, raw } from '@mikro-orm/core';
+import {
+    Loaded,
+    NotFoundError,
+    ObjectQuery,
+    QueryOrder,
+    raw,
+} from '@mikro-orm/core';
 import { getOrm } from '../../models/dataSource';
 import type {
     PaginatedResponse,
@@ -7,13 +13,19 @@ import type {
 import { Pokemon, PokemonType } from '../../models/entities/pokemon.entity';
 
 interface ListPokemonOptions extends PaginationOptions {
+    userId: string;
     types: PokemonType[];
     name?: string;
+    favorites?: boolean;
 }
 
 type PokemonWithRelations = Loaded<
     Pokemon,
-    'evolutions' | 'previousEvolutions' | 'fastAttacks' | 'specialAttacks'
+    | 'evolutions'
+    | 'previousEvolutions'
+    | 'fastAttacks'
+    | 'specialAttacks'
+    | 'favoritedUsers'
 >;
 
 const POKEMON_RELATIONS = [
@@ -21,25 +33,44 @@ const POKEMON_RELATIONS = [
     'previousEvolutions',
     'fastAttacks',
     'specialAttacks',
+    'favoritedUsers',
 ] as const;
 const NUMERIC_POKEMON_ID_ORDER = raw(alias => `cast(${alias}.id as integer)`);
 
+const getFavoritedWhereCondition = (
+    userId: string,
+    favorites?: boolean
+): ObjectQuery<Pokemon> => {
+    if (favorites != null) {
+        return {
+            favoritedUsers: favorites
+                ? { $some: { id: userId } }
+                : { $none: { id: userId } },
+        };
+    }
+
+    return {};
+};
+
 export const listPokemon = async ({
+    userId,
     page,
     limit,
     types,
     name,
+    favorites,
 }: ListPokemonOptions): Promise<PaginatedResponse<PokemonWithRelations>> => {
     const em = getOrm().em.fork();
     const offset = (page - 1) * limit;
     const normalizedTypes = types.map(
         type => type.toUpperCase() as PokemonType
     );
-    const where = {
+    const where: ObjectQuery<Pokemon> = {
         ...(normalizedTypes.length > 0
             ? { types: { $contains: normalizedTypes } }
             : {}),
         ...(name ? { name: { $ilike: `%${name}%` } } : {}),
+        ...getFavoritedWhereCondition(userId, favorites),
     };
     const [pokemons, total] = await em.findAndCount(Pokemon, where, {
         populate: POKEMON_RELATIONS,

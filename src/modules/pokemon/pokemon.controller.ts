@@ -29,8 +29,16 @@ export const listPokemonController = async (
             ? rawTypes
             : [rawTypes]
         : [];
+    const favorites = request.query.favorites;
     const name = request.query.name;
-    const paginatedPokemon = await listPokemon({ page, limit, types, name });
+    const paginatedPokemon = await listPokemon({
+        userId: request.user.id,
+        page,
+        limit,
+        types,
+        name,
+        favorites,
+    });
 
     reply.code(200).send({
         ...paginatedPokemon,
@@ -78,3 +86,6 @@ export const listPokemonTypesController = (
 ): void => {
     reply.code(200).send(listPokemonTypes());
 };
+
+
+export const 

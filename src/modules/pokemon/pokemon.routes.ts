@@ -22,6 +22,7 @@ export interface PokemonByNameRouteParams {
 export interface ListPokemonRouteParams extends PaginationQuery {
     types?: PokemonType | PokemonType[];
     name?: string;
+    favorites?: boolean;
 }
 
 const listPokemonRouteSchema: OpenApiSchema = {
@@ -164,6 +165,38 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
         },
         listPokemonTypesController
     );
+
+    // server.post(
+    //     'pokemon/set-favorite/:id',
+    //     {
+    //         onRequest: server.authenticate,
+    //         schema: {
+    //             ...listPokemonTypesRouteSchema,
+    //             headers: authHeaderSchema,
+    //             response: {
+    //                 200: pokemonTypesResponseSchema,
+    //                 401: errorResponseSchema,
+    //                 500: errorResponseSchema,
+    //             },
+    //         },
+    //     },
+    // );
+
+    // server.post(
+    //     'pokemon/unset-favorite/:id',
+    //     {
+    //         onRequest: server.authenticate,
+    //         schema: {
+    //             ...listPokemonTypesRouteSchema,
+    //             headers: authHeaderSchema,
+    //             response: {
+    //                 200: pokemonTypesResponseSchema,
+    //                 401: errorResponseSchema,
+    //                 500: errorResponseSchema,
+    //             },
+    //         },
+    //     },
+    // );
 };
 
 export default pokemonRoutes;

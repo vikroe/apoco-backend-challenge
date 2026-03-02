@@ -23,6 +23,7 @@ export const POKEMON_SCHEMAS = [
                 items: { type: 'string', enum: POKEMON_TYPE_ENUM },
             },
             name: { type: 'string' },
+            favorites: { type: 'boolean' },
         },
     },
     {
