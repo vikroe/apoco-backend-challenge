@@ -1,4 +1,12 @@
-import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import {
+    Collection,
+    Entity,
+    ManyToMany,
+    PrimaryKey,
+    Property,
+    Unique,
+} from '@mikro-orm/core';
+import { Pokemon } from './pokemon.entity';
 
 @Entity({ tableName: 'users' })
 @Unique({ properties: ['email'] })
@@ -11,6 +19,12 @@ export class User {
 
     @Property({ length: 256 })
     passwordHash!: string;
+
+    @ManyToMany(() => Pokemon, pokemon => pokemon.favoritedUsers, {
+        owner: true,
+        pivotTable: 'user_favorite_pokemon',
+    })
+    favoritePokemon = new Collection<Pokemon>(this);
 
     @Property({ onCreate: () => new Date() })
     createdAt: Date = new Date();

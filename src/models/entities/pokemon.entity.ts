@@ -7,6 +7,7 @@ import {
     Property,
 } from '@mikro-orm/core';
 import { Attack } from './attack.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Pokemon {
@@ -77,6 +78,9 @@ export class Pokemon {
         pivotTable: 'pokemon_special_attacks',
     })
     specialAttacks = new Collection<Attack>(this);
+
+    @ManyToMany(() => User, user => user.favoritePokemon)
+    favoritedUsers = new Collection<User>(this);
 
     @Enum({
         items: () => PokemonCaptureArea,

@@ -28,6 +28,12 @@ const config: Options = {
         emit: 'ts',
     },
     metadataProvider: TsMorphMetadataProvider,
+    metadataCache: {
+        enabled: true,
+        options: {
+            cacheDir: `${process.cwd()}/.cache/mikro-orm`,
+        },
+    },
     extensions: [SeedManager],
 };
 
