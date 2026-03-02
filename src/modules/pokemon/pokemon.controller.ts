@@ -1,7 +1,11 @@
 import { NotFoundError } from '@mikro-orm/core';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { serializePokemon } from './pokemon.serializer';
-import { getPokemonById, getPokemonByName } from './pokemon.service';
+import {
+    getPokemonById,
+    getPokemonByName,
+    listPokemonTypes,
+} from './pokemon.service';
 import {
     PokemonByIdRouteParams,
     PokemonByNameRouteParams,
@@ -39,4 +43,11 @@ export const getPokemonByNameController = async (
 
         throw error;
     }
+};
+
+export const listPokemonTypesController = (
+    _request: FastifyRequest,
+    reply: FastifyReply
+): void => {
+    reply.code(200).send(listPokemonTypes());
 };

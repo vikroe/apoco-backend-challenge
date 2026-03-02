@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { PokemonType } from '../../models/entities/pokemon.entity';
 import {
     bootstrapTestApplication,
     teardownTestApplication,
@@ -49,6 +50,16 @@ describe('pokemon integration', () => {
         return app.inject({
             method: 'GET',
             url: `/api/v1/pokemon/name/${encodeURIComponent(name)}`,
+            headers: {
+                authorization: `Bearer ${accessToken}`,
+            },
+        });
+    };
+
+    const getPokemonTypes = () => {
+        return app.inject({
+            method: 'GET',
+            url: '/api/v1/pokemon/types',
             headers: {
                 authorization: `Bearer ${accessToken}`,
             },
@@ -173,5 +184,12 @@ describe('pokemon integration', () => {
         expect(response.json<{ message: string }>()).toEqual({
             message: 'Could not find a pokemon for this name',
         });
+    });
+
+    it('returns the available pokemon types', async () => {
+        const response = await getPokemonTypes();
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json()).toEqual(Object.values(PokemonType));
     });
 });

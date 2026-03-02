@@ -1,6 +1,6 @@
 import { Loaded, NotFoundError } from '@mikro-orm/core';
 import { getOrm } from '../../models/dataSource';
-import { Pokemon } from '../../models/entities/pokemon.entity';
+import { Pokemon, PokemonType } from '../../models/entities/pokemon.entity';
 
 type PokemonWithRelations = Loaded<
     Pokemon,
@@ -65,3 +65,5 @@ export const getPokemonByName = async (
 
     return pokemon;
 };
+
+export const listPokemonTypes = (): PokemonType[] => Object.values(PokemonType);

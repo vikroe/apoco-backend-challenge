@@ -3,6 +3,7 @@ import { SCHEMA_REGISTRY } from '../schemaRegistry';
 import {
     getPokemonByIdController,
     getPokemonByNameController,
+    listPokemonTypesController,
 } from './pokemon.controller';
 import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
 
@@ -30,6 +31,14 @@ const getPokemonByNameRouteSchema: OpenApiSchema = {
     security: [{ bearerAuth: [] }],
 };
 
+const listPokemonTypesRouteSchema: OpenApiSchema = {
+    tags: ['Pokemon'],
+    summary: 'List pokemon types',
+    description: 'Return the available pokemon types.',
+    operationId: 'listPokemonTypes',
+    security: [{ bearerAuth: [] }],
+};
+
 const pokemonRoutes: FastifyPluginAsync = async server => {
     const authHeaderSchema = getSchemaOrThrow(
         server,
@@ -46,6 +55,10 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
     const pokemonResponseSchema = getSchemaOrThrow(
         server,
         SCHEMA_REGISTRY.pokemon.response
+    );
+    const pokemonTypesResponseSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.pokemon.typesResponse
     );
     const errorResponseSchema = getSchemaOrThrow(
         server,
@@ -90,6 +103,23 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
             },
         },
         getPokemonByNameController
+    );
+
+    server.get(
+        '/pokemon/types',
+        {
+            onRequest: server.authenticate,
+            schema: {
+                ...listPokemonTypesRouteSchema,
+                headers: authHeaderSchema,
+                response: {
+                    200: pokemonTypesResponseSchema,
+                    401: errorResponseSchema,
+                    500: errorResponseSchema,
+                },
+            },
+        },
+        listPokemonTypesController
     );
 };
 

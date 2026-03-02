@@ -1,12 +1,14 @@
 import { PokemonType } from '../../models/entities/pokemon.entity';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
 
+const POKEMON_TYPE_ENUM = Object.values(PokemonType);
+
 const toTitleCaseType = (type: PokemonType): string => {
     const lowerCaseType = type.toLowerCase();
     return `${lowerCaseType.charAt(0).toUpperCase()}${lowerCaseType.slice(1)}`;
 };
 
-const POKEMON_TYPES = Object.values(PokemonType).map(toTitleCaseType);
+const POKEMON_TYPES = POKEMON_TYPE_ENUM.map(toTitleCaseType);
 
 export const POKEMON_SCHEMAS = [
     {
@@ -25,6 +27,14 @@ export const POKEMON_SCHEMAS = [
         required: ['name'],
         properties: {
             name: { type: 'string', minLength: 1 },
+        },
+    },
+    {
+        $id: SCHEMA_REGISTRY.pokemon.typesResponse,
+        type: 'array',
+        items: {
+            type: 'string',
+            enum: POKEMON_TYPE_ENUM,
         },
     },
     {
