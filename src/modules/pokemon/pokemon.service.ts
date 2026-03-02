@@ -10,7 +10,7 @@ type PokemonWithRelations = Loaded<
 export const getPokemonById = async (
     id: string
 ): Promise<PokemonWithRelations> => {
-    const orm = await getOrm();
+    const orm = getOrm();
     const em = orm.em.fork();
 
     const normalizedId = id.trim().replace(/^0+/, '') || '0';

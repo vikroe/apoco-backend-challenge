@@ -1,8 +1,19 @@
-import Application from './application';
+import buildApplication from './application';
+import { initOrm } from './models/dataSource';
 
-const application = new Application();
+const start = async (): Promise<void> => {
+    await initOrm();
 
-application.start().catch(err => {
+    const application = buildApplication();
+    const address = await application.listen({
+        port: Number(process.env.API_PORT ?? 8080),
+        host: process.env.API_HOST ?? 'localhost',
+    });
+
+    console.log(`server listening on ${address}`);
+};
+
+start().catch(err => {
     console.error(err);
     process.exit(1);
 });

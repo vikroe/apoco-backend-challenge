@@ -12,7 +12,7 @@ export const registerUser = async (
     password: string
 ): Promise<User> => {
     const normalizedEmail = normalizeEmail(email);
-    const orm = await getOrm();
+    const orm = getOrm();
     const em = orm.em.fork();
 
     const existingUser = await em.findOne(User, { email: normalizedEmail });
@@ -38,7 +38,7 @@ export const authenticateUser = async (
     password: string
 ): Promise<User | null> => {
     const normalizedEmail = normalizeEmail(email);
-    const orm = await getOrm();
+    const orm = getOrm();
     const em = orm.em.fork();
 
     const user = await em.findOne(User, { email: normalizedEmail });
@@ -55,7 +55,7 @@ export const authenticateUser = async (
 };
 
 export const getUserById = async (id: string): Promise<User | null> => {
-    const orm = await getOrm();
+    const orm = getOrm();
     const em = orm.em.fork();
 
     return em.findOne(User, { id });
