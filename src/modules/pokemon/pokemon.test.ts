@@ -1,10 +1,14 @@
 import type { FastifyInstance } from 'fastify';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { PokemonType } from '../../models/entities/pokemon.entity';
+import type { PaginatedResponse } from '../../utils/pagination';
 import {
     bootstrapTestApplication,
     teardownTestApplication,
 } from '../../test/setup.js';
+import type { PokemonResponse } from './pokemon.serializer';
+
+type ListPokemonQuery = Record<string, string | string[]>;
 
 describe('pokemon integration', () => {
     let app: FastifyInstance;
@@ -46,6 +50,33 @@ describe('pokemon integration', () => {
         });
     };
 
+    const listPokemon = (query?: ListPokemonQuery) => {
+        const searchParams = new URLSearchParams();
+
+        for (const [key, value] of Object.entries(query ?? {})) {
+            if (Array.isArray(value)) {
+                for (const item of value) {
+                    searchParams.append(key, item);
+                }
+                continue;
+            }
+
+            searchParams.append(key, value);
+        }
+
+        const queryString = searchParams.toString();
+
+        return app.inject({
+            method: 'GET',
+            url: queryString
+                ? `/api/v1/pokemon?${queryString}`
+                : '/api/v1/pokemon',
+            headers: {
+                authorization: `Bearer ${accessToken}`,
+            },
+        });
+    };
+
     const getPokemonByName = (name: string) => {
         return app.inject({
             method: 'GET',
@@ -65,6 +96,168 @@ describe('pokemon integration', () => {
             },
         });
     };
+
+    it('returns a paginated list of pokemon ordered by numeric id', async () => {
+        const response = await listPokemon();
+        const firstPokemonResponse = await getPokemon('001');
+
+        expect(response.statusCode).toBe(200);
+        expect(firstPokemonResponse.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 1,
+            limit: 20,
+            total: 151,
+            totalPages: 8,
+        });
+        expect(
+            response.json<PaginatedResponse<PokemonResponse>>().data
+        ).toHaveLength(20);
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.slice(0, 3)
+                .map(pokemon => pokemon.id)
+        ).toEqual(['001', '002', '003']);
+        expect(response.json<PaginatedResponse<PokemonResponse>>().data[0]).toEqual(
+            firstPokemonResponse.json<PokemonResponse>()
+        );
+    });
+
+    it('supports page and limit query parameters for pokemon pagination', async () => {
+        const response = await listPokemon({
+            page: '2',
+            limit: '3',
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 2,
+            limit: 3,
+            total: 151,
+            totalPages: 51,
+        });
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.map(pokemon => pokemon.id)
+        ).toEqual(['004', '005', '006']);
+    });
+
+    it('returns an empty page when pokemon pagination exceeds the dataset', async () => {
+        const response = await listPokemon({
+            page: '99',
+            limit: '20',
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 99,
+            limit: 20,
+            total: 151,
+            totalPages: 8,
+            data: [],
+        });
+    });
+
+    it('filters pokemon by a single type', async () => {
+        const response = await listPokemon({
+            types: ['BUG'],
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 1,
+            limit: 20,
+            total: 12,
+            totalPages: 1,
+        });
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.map(pokemon => pokemon.name)
+        ).toEqual([
+            'Caterpie',
+            'Metapod',
+            'Butterfree',
+            'Weedle',
+            'Kakuna',
+            'Beedrill',
+            'Paras',
+            'Parasect',
+            'Venonat',
+            'Venomoth',
+            'Scyther',
+            'Pinsir',
+        ]);
+    });
+
+    it('filters pokemon by multiple types using array containment semantics', async () => {
+        const response = await listPokemon({
+            types: ['GRASS', 'POISON'],
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 1,
+            limit: 20,
+            total: 9,
+            totalPages: 1,
+        });
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.map(pokemon => pokemon.name)
+        ).toEqual([
+            'Bulbasaur',
+            'Ivysaur',
+            'Venusaur',
+            'Oddish',
+            'Gloom',
+            'Vileplume',
+            'Bellsprout',
+            'Weepinbell',
+            'Victreebel',
+        ]);
+    });
+
+    it('filters pokemon by partial name case-insensitively', async () => {
+        const response = await listPokemon({
+            name: 'saur',
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 1,
+            limit: 20,
+            total: 3,
+            totalPages: 1,
+        });
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.map(pokemon => pokemon.name)
+        ).toEqual(['Bulbasaur', 'Ivysaur', 'Venusaur']);
+    });
+
+    it('combines name and type filters', async () => {
+        const response = await listPokemon({
+            name: 'saur',
+            types: ['GRASS', 'POISON'],
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.json<PaginatedResponse<PokemonResponse>>()).toMatchObject({
+            page: 1,
+            limit: 20,
+            total: 3,
+            totalPages: 1,
+        });
+        expect(
+            response
+                .json<PaginatedResponse<PokemonResponse>>()
+                .data.map(pokemon => pokemon.name)
+        ).toEqual(['Bulbasaur', 'Ivysaur', 'Venusaur']);
+    });
 
     it('returns the expected Bulbasaur payload from the seeded dataset', async () => {
         const response = await getPokemon('001');
@@ -191,5 +384,13 @@ describe('pokemon integration', () => {
 
         expect(response.statusCode).toBe(200);
         expect(response.json()).toEqual(Object.values(PokemonType));
+    });
+
+    it('rejects invalid pokemon pagination parameters', async () => {
+        const response = await listPokemon({
+            page: '0',
+        });
+
+        expect(response.statusCode).toBe(400);
     });
 });

@@ -1,5 +1,25 @@
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
 
+const PAGINATION_METADATA_PROPERTIES = {
+    page: { type: 'integer', minimum: 1 },
+    limit: { type: 'integer', minimum: 1 },
+    total: { type: 'integer', minimum: 0 },
+    totalPages: { type: 'integer', minimum: 0 },
+} as const;
+
+export const buildPaginatedResponseSchema = (itemSchemaId: string) => ({
+    type: 'object',
+    additionalProperties: false,
+    required: ['data', 'page', 'limit', 'total', 'totalPages'],
+    properties: {
+        data: {
+            type: 'array',
+            items: { $ref: `${itemSchemaId}#` },
+        },
+        ...PAGINATION_METADATA_PROPERTIES,
+    },
+});
+
 export const COMMON_SCHEMA_DEFINITION = [
     {
         $id: SCHEMA_REGISTRY.common.errorResponse,

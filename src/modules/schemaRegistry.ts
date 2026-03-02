@@ -10,6 +10,7 @@ export const SCHEMA_REGISTRY = {
         meResponse: 'schema:auth:meResponse',
     },
     pokemon: {
+        listQuerystring: 'schema:pokemon:listQuerystring',
         getByIdParams: 'schema:pokemon:getByIdParams',
         getByNameParams: 'schema:pokemon:getByNameParams',
         response: 'schema:pokemon:response',

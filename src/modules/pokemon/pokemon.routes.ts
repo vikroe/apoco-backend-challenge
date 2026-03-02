@@ -1,11 +1,15 @@
 import { FastifyPluginAsync } from 'fastify';
+import { buildPaginatedResponseSchema } from '../common/common.schemas';
+import type { PaginationQuery } from '../../utils/pagination';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
 import {
     getPokemonByIdController,
     getPokemonByNameController,
+    listPokemonController,
     listPokemonTypesController,
 } from './pokemon.controller';
 import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
+import { PokemonType } from '../../models/entities/pokemon.entity';
 
 export interface PokemonByIdRouteParams {
     id: string;
@@ -14,6 +18,19 @@ export interface PokemonByIdRouteParams {
 export interface PokemonByNameRouteParams {
     name: string;
 }
+
+export interface ListPokemonRouteParams extends PaginationQuery {
+    types?: PokemonType | PokemonType[];
+    name?: string;
+}
+
+const listPokemonRouteSchema: OpenApiSchema = {
+    tags: ['Pokemon'],
+    summary: 'List pokemon',
+    description: 'Return a paginated list of pokemon.',
+    operationId: 'listPokemon',
+    security: [{ bearerAuth: [] }],
+};
 
 const getPokemonByIdRouteSchema: OpenApiSchema = {
     tags: ['Pokemon'],
@@ -40,9 +57,16 @@ const listPokemonTypesRouteSchema: OpenApiSchema = {
 };
 
 const pokemonRoutes: FastifyPluginAsync = async server => {
+    const listPokemonResponseSchema = buildPaginatedResponseSchema(
+        SCHEMA_REGISTRY.pokemon.response
+    );
     const authHeaderSchema = getSchemaOrThrow(
         server,
         SCHEMA_REGISTRY.common.authHeader
+    );
+    const listQuerystringSchema = getSchemaOrThrow(
+        server,
+        SCHEMA_REGISTRY.pokemon.listQuerystring
     );
     const getByIdParamsSchema = getSchemaOrThrow(
         server,
@@ -63,6 +87,25 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
     const errorResponseSchema = getSchemaOrThrow(
         server,
         SCHEMA_REGISTRY.common.errorResponse
+    );
+
+    server.get<{ Querystring: ListPokemonRouteParams }>(
+        '/pokemon',
+        {
+            onRequest: server.authenticate,
+            schema: {
+                ...listPokemonRouteSchema,
+                headers: authHeaderSchema,
+                querystring: listQuerystringSchema,
+                response: {
+                    200: listPokemonResponseSchema,
+                    400: errorResponseSchema,
+                    401: errorResponseSchema,
+                    500: errorResponseSchema,
+                },
+            },
+        },
+        listPokemonController
     );
 
     server.get<{ Params: PokemonByIdRouteParams }>(

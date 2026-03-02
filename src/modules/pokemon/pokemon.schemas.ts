@@ -12,6 +12,20 @@ const POKEMON_TYPES = POKEMON_TYPE_ENUM.map(toTitleCaseType);
 
 export const POKEMON_SCHEMAS = [
     {
+        $id: SCHEMA_REGISTRY.pokemon.listQuerystring,
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+            page: { type: 'integer', minimum: 1 },
+            limit: { type: 'integer', minimum: 1 },
+            types: {
+                type: 'array',
+                items: { type: 'string', enum: POKEMON_TYPE_ENUM },
+            },
+            name: { type: 'string' }
+        },
+    },
+    {
         $id: SCHEMA_REGISTRY.pokemon.getByIdParams,
         type: 'object',
         additionalProperties: false,
