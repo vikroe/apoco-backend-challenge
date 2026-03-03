@@ -11,6 +11,7 @@ import type {
     PaginationOptions,
 } from '../../utils/pagination';
 import { Pokemon, PokemonType } from '../../models/entities/pokemon.entity';
+import { normalizePokemonId } from '../../utils/pokemon';
 
 interface ListPokemonOptions extends PaginationOptions {
     userId: string;
@@ -74,9 +75,7 @@ export const listPokemon = async ({
     };
     const [pokemons, total] = await em.findAndCount(Pokemon, where, {
         populate: POKEMON_RELATIONS,
-        orderBy: {
-            [NUMERIC_POKEMON_ID_ORDER]: QueryOrder.ASC,
-        },
+        orderBy: { [NUMERIC_POKEMON_ID_ORDER]: QueryOrder.ASC },
         limit,
         offset,
     });
@@ -96,13 +95,11 @@ export const getPokemonById = async (
     const orm = getOrm();
     const em = orm.em.fork();
 
-    const normalizedId = id.trim().replace(/^0+/, '') || '0';
+    const normalizedId = normalizePokemonId(id);
     const pokemon = await em.findOne(
         Pokemon,
         { id: normalizedId },
-        {
-            populate: POKEMON_RELATIONS,
-        }
+        { populate: POKEMON_RELATIONS }
     );
 
     if (!pokemon) {
@@ -124,9 +121,7 @@ export const getPokemonByName = async (
     const pokemon = await em.findOne(
         Pokemon,
         { name: { $ilike: normalizedName } },
-        {
-            populate: POKEMON_RELATIONS,
-        }
+        { populate: POKEMON_RELATIONS }
     );
 
     if (!pokemon) {

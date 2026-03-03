@@ -30,4 +30,16 @@ export const COMMON_SCHEMA_DEFINITION = [
             message: { type: 'string' },
         },
     },
+    {
+        $id: SCHEMA_REGISTRY.common.authHeader,
+        type: 'object',
+        additionalProperties: true,
+        required: ['authorization'],
+        properties: {
+            authorization: {
+                type: 'string',
+                description: 'Bearer <access-token>',
+            },
+        },
+    },
 ];

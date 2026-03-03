@@ -42,16 +42,4 @@ export const AUTH_SCHEMAS = [
             user: { $ref: `${SCHEMA_REGISTRY.auth.user}#` },
         },
     },
-    {
-        $id: SCHEMA_REGISTRY.common.authHeader,
-        type: 'object',
-        additionalProperties: true,
-        required: ['authorization'],
-        properties: {
-            authorization: {
-                type: 'string',
-                description: 'Bearer <access-token>',
-            },
-        },
-    },
 ];

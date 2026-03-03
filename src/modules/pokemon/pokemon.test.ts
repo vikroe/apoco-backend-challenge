@@ -97,6 +97,26 @@ describe('pokemon integration', () => {
         });
     };
 
+    const setFavoritePokemon = (id: string) => {
+        return app.inject({
+            method: 'POST',
+            url: `/api/v1/user/set-favorite-pokemon/${id}`,
+            headers: {
+                authorization: `Bearer ${accessToken}`,
+            },
+        });
+    };
+
+    const unsetFavoritePokemon = (id: string) => {
+        return app.inject({
+            method: 'POST',
+            url: `/api/v1/user/unset-favorite-pokemon/${id}`,
+            headers: {
+                authorization: `Bearer ${accessToken}`,
+            },
+        });
+    };
+
     it('returns a paginated list of pokemon ordered by numeric id', async () => {
         const response = await listPokemon();
         const firstPokemonResponse = await getPokemon('001');
@@ -271,6 +291,110 @@ describe('pokemon integration', () => {
                 .json<PaginatedResponse<PokemonResponse>>()
                 .data.map(pokemon => pokemon.name)
         ).toEqual(['Bulbasaur', 'Ivysaur', 'Venusaur']);
+    });
+
+    it('sets and unsets favorite pokemon while keeping the favorites filter accurate', async () => {
+        try {
+            const setBulbasaurResponse = await setFavoritePokemon('0001');
+            const setCharmanderResponse = await setFavoritePokemon('004');
+
+            expect(setBulbasaurResponse.statusCode).toBe(200);
+            expect(setCharmanderResponse.statusCode).toBe(200);
+
+            const favoritesResponse = await listPokemon({
+                favorites: 'true',
+            });
+            expect(favoritesResponse.statusCode).toBe(200);
+            expect(
+                favoritesResponse.json<PaginatedResponse<PokemonResponse>>()
+            ).toMatchObject({
+                page: 1,
+                limit: 20,
+                total: 2,
+                totalPages: 1,
+            });
+            expect(
+                favoritesResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.id)
+            ).toEqual(['001', '004']);
+
+            const nonFavoritesResponse = await listPokemon({
+                favorites: 'false',
+            });
+            expect(nonFavoritesResponse.statusCode).toBe(200);
+            expect(
+                nonFavoritesResponse.json<PaginatedResponse<PokemonResponse>>()
+            ).toMatchObject({
+                page: 1,
+                limit: 20,
+                total: 149,
+                totalPages: 8,
+            });
+            expect(
+                nonFavoritesResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.id)
+            ).not.toContain('001');
+            expect(
+                nonFavoritesResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.id)
+            ).not.toContain('004');
+
+            const typedFavoritesResponse = await listPokemon({
+                favorites: 'true',
+                types: ['GRASS', 'POISON'],
+            });
+            expect(typedFavoritesResponse.statusCode).toBe(200);
+            expect(
+                typedFavoritesResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.name)
+            ).toEqual(['Bulbasaur']);
+
+            const namedFavoritesResponse = await listPokemon({
+                favorites: 'true',
+                name: 'char',
+            });
+            expect(namedFavoritesResponse.statusCode).toBe(200);
+            expect(
+                namedFavoritesResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.name)
+            ).toEqual(['Charmander']);
+
+            const unsetBulbasaurResponse = await unsetFavoritePokemon('1');
+            expect(unsetBulbasaurResponse.statusCode).toBe(200);
+
+            const favoritesAfterUnsetResponse = await listPokemon({
+                favorites: 'true',
+            });
+            expect(favoritesAfterUnsetResponse.statusCode).toBe(200);
+            expect(
+                favoritesAfterUnsetResponse
+                    .json<PaginatedResponse<PokemonResponse>>()
+                    .data.map(pokemon => pokemon.id)
+            ).toEqual(['004']);
+        } finally {
+            await unsetFavoritePokemon('001');
+            await unsetFavoritePokemon('004');
+        }
+    });
+
+    it('returns 404 when favorite endpoints target a pokemon that does not exist', async () => {
+        const setResponse = await setFavoritePokemon('9999');
+        const unsetResponse = await unsetFavoritePokemon('9999');
+
+        expect(setResponse.statusCode).toBe(404);
+        expect(setResponse.json<{ message: string }>()).toEqual({
+            message: 'Could not find a pokemon for this ID',
+        });
+
+        expect(unsetResponse.statusCode).toBe(404);
+        expect(unsetResponse.json<{ message: string }>()).toEqual({
+            message: 'Could not find a pokemon for this ID',
+        });
     });
 
     it('returns the expected Bulbasaur payload from the seeded dataset', async () => {

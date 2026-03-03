@@ -21,4 +21,7 @@ export const SCHEMA_REGISTRY = {
         attack: 'schema:pokemon:attack',
         attacks: 'schema:pokemon:attacks',
     },
+    user: {
+        setFavoritePokemon: 'schema:user:setFavoritePokemon',
+    },
 } as const;
