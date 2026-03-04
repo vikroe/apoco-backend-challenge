@@ -20,7 +20,7 @@ interface ListPokemonOptions extends PaginationOptions {
     favorites?: boolean;
 }
 
-type PokemonWithRelations = Loaded<
+export type PokemonWithRelations = Loaded<
     Pokemon,
     | 'evolutions'
     | 'previousEvolutions'
@@ -29,7 +29,7 @@ type PokemonWithRelations = Loaded<
     | 'favoritedUsers'
 >;
 
-const POKEMON_RELATIONS = [
+export const POKEMON_RELATIONS = [
     'evolutions',
     'previousEvolutions',
     'fastAttacks',

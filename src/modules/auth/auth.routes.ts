@@ -6,7 +6,7 @@ import {
     registerController,
 } from './auth.controller';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
-import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
+import { OpenApiSchema, schemaRef } from '../../utils/schema';
 
 const registerRouteSchema: OpenApiSchema = {
     tags: ['Auth'],
@@ -31,38 +31,17 @@ const meRouteSchema: OpenApiSchema = {
 };
 
 const authRoutes: FastifyPluginAsync = async server => {
-    const credentialsBodySchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.auth.credentialsBody
-    );
-    const authResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.auth.authResponse
-    );
-    const meResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.auth.meResponse
-    );
-    const errorResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.errorResponse
-    );
-    const authHeaderSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.authHeader
-    );
-
     server.post<{ Body: CredentialsBody }>(
         '/auth/register',
         {
             schema: {
                 ...registerRouteSchema,
-                body: credentialsBodySchema,
+                body: schemaRef(SCHEMA_REGISTRY.auth.credentialsBody),
                 response: {
-                    201: authResponseSchema,
-                    400: errorResponseSchema,
-                    409: errorResponseSchema,
-                    500: errorResponseSchema,
+                    201: schemaRef(SCHEMA_REGISTRY.auth.authResponse),
+                    400: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    409: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -74,12 +53,12 @@ const authRoutes: FastifyPluginAsync = async server => {
         {
             schema: {
                 ...loginRouteSchema,
-                body: credentialsBodySchema,
+                body: schemaRef(SCHEMA_REGISTRY.auth.credentialsBody),
                 response: {
-                    200: authResponseSchema,
-                    400: errorResponseSchema,
-                    401: errorResponseSchema,
-                    500: errorResponseSchema,
+                    200: schemaRef(SCHEMA_REGISTRY.auth.authResponse),
+                    400: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -92,11 +71,11 @@ const authRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...meRouteSchema,
-                headers: authHeaderSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
                 response: {
-                    200: meResponseSchema,
-                    401: errorResponseSchema,
-                    500: errorResponseSchema,
+                    200: schemaRef(SCHEMA_REGISTRY.auth.meResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },

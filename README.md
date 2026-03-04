@@ -15,11 +15,12 @@ Production-style REST API for a Pokemon catalog built with Fastify, TypeScript, 
 ## Implemented
 
 - Bearer token authentication
+- Ask the Professor AI endpoint grounded in the Pokemon catalog
 - Pokemon listing with:
-  - pagination
-  - name search
-  - type filtering
-  - favorites filtering
+    - pagination
+    - name search
+    - type filtering
+    - favorites filtering
 - Get Pokemon by ID
 - Get Pokemon by name
 - Get available Pokemon types
@@ -27,12 +28,7 @@ Production-style REST API for a Pokemon catalog built with Fastify, TypeScript, 
 - PostgreSQL migrations and seeding
 - OpenAPI documentation
 - Dockerized setup with DB bootstrap and seeding
-- Integration tests for auth, Pokemon queries, and favorites
-
-## Pending
-
-- AI-powered feature
-- Final README section for AI provider selection and configuration
+- Integration tests for auth, Pokemon queries, favorites, and AI
 
 ## Run With Docker
 
@@ -87,6 +83,10 @@ curl -X POST http://127.0.0.1:8080/api/v1/auth/register \
 - `POST /api/v1/user/set-favorite-pokemon/:id`
 - `POST /api/v1/user/unset-favorite-pokemon/:id`
 
+### AI
+
+- `POST /api/v1/ai/ask-professor`
+
 ## Pokemon List Query Params
 
 `GET /api/v1/pokemon`
@@ -113,3 +113,29 @@ yarn test
 ```
 
 Note: tests use Docker to start a PostgreSQL container. For a project of this size it seemed suitable to use only integration tests that cover the whole scope of the project.
+
+## AI Provider
+
+The AI feature uses the OpenAI Responses API. The application builds a grounded prompt from the seeded Pokemon catalog and instructs the model to answer only from that catalog data.
+
+AI is enabled only when `OPENAI_API_KEY` is set. Once enabled, the OpenAI
+configuration is read entirely from environment variables:
+
+- `OPENAI_API_KEY`
+- `OPENAI_API_BASE_URL`
+- `OPENAI_MODEL`
+- `OPENAI_MAX_OUTPUT_TOKENS`
+- `OPENAI_TIMEOUT_MS`
+
+The expected local values are shown in `.env.example`.
+
+If the OpenAI API is unavailable or not configured, the endpoint returns `503` and the rest of the API continues to work normally.
+
+Example:
+
+```bash
+curl -X POST http://127.0.0.1:8080/api/v1/ai/ask-professor \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <access-token>" \
+  -d '{"question":"What does Bulbasaur evolve into?"}'
+```

@@ -1,4 +1,4 @@
-import { FastifyPluginAsync, FastifySchema } from 'fastify';
+import { FastifySchema } from 'fastify';
 
 export type OpenApiSchema = FastifySchema & {
     tags?: string[];
@@ -8,14 +8,6 @@ export type OpenApiSchema = FastifySchema & {
     security?: Array<Record<string, string[]>>;
 };
 
-export const getSchemaOrThrow = (
-    server: Parameters<FastifyPluginAsync>[0],
-    schemaId: string
-): unknown => {
-    const schema = server.getSchema(schemaId);
-    if (!schema) {
-        throw new Error(`Schema with id "${schemaId}" is not registered.`);
-    }
-
-    return schema;
-};
+export const schemaRef = (schemaId: string): { $ref: string } => ({
+    $ref: `${schemaId}#`,
+});

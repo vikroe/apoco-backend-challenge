@@ -8,7 +8,7 @@ import {
     listPokemonController,
     listPokemonTypesController,
 } from './pokemon.controller';
-import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
+import { OpenApiSchema, schemaRef } from '../../utils/schema';
 import { PokemonType } from '../../models/entities/pokemon.entity';
 
 export interface PokemonByIdRouteParams {
@@ -61,34 +61,6 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
     const listPokemonResponseSchema = buildPaginatedResponseSchema(
         SCHEMA_REGISTRY.pokemon.response
     );
-    const authHeaderSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.authHeader
-    );
-    const listQuerystringSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.pokemon.listQuerystring
-    );
-    const getByIdParamsSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.pokemon.getByIdParams
-    );
-    const getByNameParamsSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.pokemon.getByNameParams
-    );
-    const pokemonResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.pokemon.response
-    );
-    const pokemonTypesResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.pokemon.typesResponse
-    );
-    const errorResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.errorResponse
-    );
 
     server.get<{ Querystring: ListPokemonRouteParams }>(
         '/pokemon',
@@ -96,13 +68,13 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...listPokemonRouteSchema,
-                headers: authHeaderSchema,
-                querystring: listQuerystringSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
+                querystring: schemaRef(SCHEMA_REGISTRY.pokemon.listQuerystring),
                 response: {
                     200: listPokemonResponseSchema,
-                    400: errorResponseSchema,
-                    401: errorResponseSchema,
-                    500: errorResponseSchema,
+                    400: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -115,14 +87,14 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...getPokemonByIdRouteSchema,
-                headers: authHeaderSchema,
-                params: getByIdParamsSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
+                params: schemaRef(SCHEMA_REGISTRY.pokemon.getByIdParams),
                 response: {
-                    200: pokemonResponseSchema,
-                    400: errorResponseSchema,
-                    401: errorResponseSchema,
-                    404: errorResponseSchema,
-                    500: errorResponseSchema,
+                    200: schemaRef(SCHEMA_REGISTRY.pokemon.response),
+                    400: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    404: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -135,14 +107,14 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...getPokemonByNameRouteSchema,
-                headers: authHeaderSchema,
-                params: getByNameParamsSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
+                params: schemaRef(SCHEMA_REGISTRY.pokemon.getByNameParams),
                 response: {
-                    200: pokemonResponseSchema,
-                    400: errorResponseSchema,
-                    401: errorResponseSchema,
-                    404: errorResponseSchema,
-                    500: errorResponseSchema,
+                    200: schemaRef(SCHEMA_REGISTRY.pokemon.response),
+                    400: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    404: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -155,11 +127,11 @@ const pokemonRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...listPokemonTypesRouteSchema,
-                headers: authHeaderSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
                 response: {
-                    200: pokemonTypesResponseSchema,
-                    401: errorResponseSchema,
-                    500: errorResponseSchema,
+                    200: schemaRef(SCHEMA_REGISTRY.pokemon.typesResponse),
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },

@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import { SCHEMA_REGISTRY } from '../schemaRegistry';
-import { getSchemaOrThrow, OpenApiSchema } from '../../utils/schema';
+import { OpenApiSchema, schemaRef } from '../../utils/schema';
 import {
     setFavoritePokemonController,
     unsetFavoritePokemonController,
@@ -27,32 +27,19 @@ const unsetFavoritePokemonRouteSchema: OpenApiSchema = {
 };
 
 const userRoutes: FastifyPluginAsync = async server => {
-    const authHeaderSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.authHeader
-    );
-    const errorResponseSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.common.errorResponse
-    );
-    const setFavoritePokemonSchema = getSchemaOrThrow(
-        server,
-        SCHEMA_REGISTRY.user.setFavoritePokemon
-    );
-
     server.post<{ Params: SetPokemonRouteParams }>(
         '/user/set-favorite-pokemon/:id',
         {
             onRequest: server.authenticate,
             schema: {
                 ...setFavoritePokemonRouteSchema,
-                headers: authHeaderSchema,
-                params: setFavoritePokemonSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
+                params: schemaRef(SCHEMA_REGISTRY.user.setFavoritePokemon),
                 response: {
                     200: {},
-                    401: errorResponseSchema,
-                    404: errorResponseSchema,
-                    500: errorResponseSchema,
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    404: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },
@@ -65,13 +52,13 @@ const userRoutes: FastifyPluginAsync = async server => {
             onRequest: server.authenticate,
             schema: {
                 ...unsetFavoritePokemonRouteSchema,
-                headers: authHeaderSchema,
-                params: setFavoritePokemonSchema,
+                headers: schemaRef(SCHEMA_REGISTRY.common.authHeader),
+                params: schemaRef(SCHEMA_REGISTRY.user.setFavoritePokemon),
                 response: {
                     200: {},
-                    401: errorResponseSchema,
-                    404: errorResponseSchema,
-                    500: errorResponseSchema,
+                    401: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    404: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
+                    500: schemaRef(SCHEMA_REGISTRY.common.errorResponse),
                 },
             },
         },

@@ -3,6 +3,10 @@ export const SCHEMA_REGISTRY = {
         errorResponse: 'schema:common:errorResponse',
         authHeader: 'schema:common:authHeader',
     },
+    ai: {
+        askProfessorBody: 'schema:ai:askProfessorBody',
+        askProfessorResponse: 'schema:ai:askProfessorResponse',
+    },
     auth: {
         credentialsBody: 'schema:auth:credentialsBody',
         user: 'schema:auth:user',
