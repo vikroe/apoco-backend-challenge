@@ -14,7 +14,7 @@
         "pretty": "prettier --write .",
         "lint:fix": "yarn eslint --fix .",
         "dev-db": "docker compose -f docker-compose.dev.yml up --detach",
-        "dev-db:init": "tsx --env-file=.env src/scripts/devDbInit.ts"
+        "dev-db:init": "tsx --env-file=.env src/scripts/dbInit.ts"
     },
     "dependencies": {
         "@fastify/jwt": "^10.0.0",
