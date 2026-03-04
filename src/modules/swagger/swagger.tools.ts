@@ -2,6 +2,9 @@ import { FastifyInstance } from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUI from '@fastify/swagger-ui';
 
+export const SWAGGER_UI_PATH = '/documentation';
+export const SWAGGER_SPEC_PATH = '/documentation/json';
+
 export function registerSwaggerTools(server: FastifyInstance): void {
     server.register(swagger, {
         mode: 'dynamic',
@@ -21,8 +24,8 @@ export function registerSwaggerTools(server: FastifyInstance): void {
             ],
             tags: [
                 { name: 'Auth', description: 'Authentication endpoints' },
-                { name: 'Health', description: 'Health check endpoints' },
                 { name: 'Pokemon', description: 'Pokemon endpoints' },
+                { name: 'User', description: 'User endpoints' },
             ],
             components: {
                 securitySchemes: {
@@ -37,7 +40,7 @@ export function registerSwaggerTools(server: FastifyInstance): void {
     });
 
     server.register(swaggerUI, {
-        routePrefix: '/documentation',
+        routePrefix: SWAGGER_UI_PATH,
         uiConfig: {
             docExpansion: 'list',
             deepLinking: true,
