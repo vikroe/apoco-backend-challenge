@@ -15,7 +15,7 @@ x-api-env: &api-env
     OPENAI_MAX_OUTPUT_TOKENS: ${OPENAI_MAX_OUTPUT_TOKENS:-300}
     OPENAI_TIMEOUT_MS: ${OPENAI_TIMEOUT_MS:-20000}
 
-x-api-image: &api-image
+x-api-build: &api-build
     image: apoco-backend-challenge-api
     build:
         context: .
@@ -38,7 +38,8 @@ services:
             - pokemon-db-data:/var/lib/postgresql/data
 
     db-init:
-        <<: *api-image
+        image: apoco-backend-challenge-api
+        pull_policy: never
         depends_on:
             db:
                 condition: service_healthy
@@ -50,7 +51,7 @@ services:
             - ./resources:/app/resources:ro
 
     api:
-        <<: *api-image
+        <<: *api-build
         depends_on:
             db-init:
                 condition: service_completed_successfully
