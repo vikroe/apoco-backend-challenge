@@ -12,7 +12,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json yarn.lock tsconfig.json ./
 COPY src ./src
-RUN yarn tsc -p tsconfig.json
+RUN yarn build
 
 FROM node:24-alpine AS runner
 
@@ -29,4 +29,4 @@ EXPOSE 8080
 
 USER node
 
-CMD ["node", "build/index.js"]
+CMD ["yarn", "start:prod"]

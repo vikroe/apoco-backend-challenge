@@ -40,7 +40,7 @@ services:
         restart: 'no'
         environment:
             <<: *api-env
-        command: ['node', 'build/scripts/dbInit.js']
+        command: ['yarn', 'db:init:prod']
         volumes:
             - ./resources:/app/resources:ro
 

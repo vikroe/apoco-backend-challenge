@@ -6,7 +6,9 @@
     "author": "Viktor Koropecky <v.koropecky@protonmail.com>",
     "license": "MIT",
     "scripts": {
+        "build": "tsc -p tsconfig.json",
         "start": "tsx watch --env-file=.env --include 'src/**' --exclude 'src/models/migrations/**' --exclude 'src/models/seeders/**' src/index.ts",
+        "start:prod": "node build/index.js",
         "seed": "mikro-orm seeder:run --class PokemonSeeder",
         "test": "vitest run",
         "test:watch": "vitest",
@@ -14,7 +16,8 @@
         "pretty": "prettier --write .",
         "lint:fix": "yarn eslint --fix .",
         "dev-db": "docker compose -f docker-compose.dev.yml up --detach",
-        "dev-db:init": "tsx --env-file=.env src/scripts/dbInit.ts"
+        "dev-db:init": "tsx --env-file=.env src/scripts/dbInit.ts",
+        "db:init:prod": "node build/scripts/dbInit.js"
     },
     "dependencies": {
         "@fastify/jwt": "^10.0.0",
